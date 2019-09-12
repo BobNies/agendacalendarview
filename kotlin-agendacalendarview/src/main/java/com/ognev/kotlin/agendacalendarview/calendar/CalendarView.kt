@@ -72,10 +72,10 @@ open class CalendarView : LinearLayout {
 
         mDayNamesHeader = findViewById(R.id.cal_day_names)
         listViewWeeks = findViewById(R.id.list_week)
-        listViewWeeks!!.layoutManager = LinearLayoutManager(context)
-        listViewWeeks!!.setHasFixedSize(true)
-        listViewWeeks!!.itemAnimator = null
-        listViewWeeks!!.setSnapEnabled(true)
+        listViewWeeks?.layoutManager = LinearLayoutManager(context)
+        listViewWeeks?.setHasFixedSize(true)
+        listViewWeeks?.itemAnimator = null
+        listViewWeeks?.setSnapEnabled(true)
 
         // display only two visible rows on the calendar view
         viewTreeObserver.addOnGlobalLayoutListener(
@@ -115,7 +115,7 @@ open class CalendarView : LinearLayout {
         val weekDayFormatter = calendarManager.weekdayFormatter
         val weeks = calendarManager.weeks
 
-        setUpHeader(today, weekDayFormatter!!, locale!!)
+        weekDayFormatter?.let { locale?.let { it1 -> setUpHeader(today, it, it1) } }
         setUpAdapter(today, weeks, monthColor, selectedDayTextColor, currentDayTextColor, pastDayTextColor, circleColor
                 , cellPastBackgroundColor, cellNowadaysDayColor)
         scrollToDate(today, weeks)
@@ -127,7 +127,7 @@ open class CalendarView : LinearLayout {
      * @param calendarEvent The event for the selected position in the agenda listview.
      */
     fun scrollToDate(calendarEvent: CalendarEvent) {
-        listViewWeeks!!.post { scrollToPosition(updateSelectedDay(calendarEvent.instanceDay, calendarEvent.dayReference)) }
+        listViewWeeks?.post { scrollToPosition(updateSelectedDay(calendarEvent.instanceDay, calendarEvent.dayReference)) }
     }
 
     fun scrollToDate(today: Calendar, weeks: List<IWeekItem>) {
@@ -142,12 +142,12 @@ open class CalendarView : LinearLayout {
 
         if (currentWeekIndex != null) {
             val finalCurrentWeekIndex = currentWeekIndex
-            listViewWeeks!!.post { scrollToPosition(finalCurrentWeekIndex.toInt()) }
+            listViewWeeks?.post { scrollToPosition(finalCurrentWeekIndex.toInt()) }
         }
     }
 
     override fun setBackgroundColor(color: Int) {
-        listViewWeeks!!.setBackgroundColor(color)
+        listViewWeeks?.setBackgroundColor(color)
     }
 
     // endregion
@@ -155,12 +155,12 @@ open class CalendarView : LinearLayout {
     // region Private methods
 
     private fun scrollToPosition(targetPosition: Int) {
-        val layoutManager = listViewWeeks!!.layoutManager as LinearLayoutManager
+        val layoutManager = listViewWeeks?.layoutManager as LinearLayoutManager
         layoutManager.scrollToPosition(targetPosition)
     }
 
     private fun updateItemAtPosition(position: Int) {
-        val weeksAdapter = listViewWeeks!!.adapter as WeeksAdapter
+        val weeksAdapter = listViewWeeks?.adapter as WeeksAdapter
         weeksAdapter.notifyItemChanged(position)
     }
 
@@ -173,9 +173,9 @@ open class CalendarView : LinearLayout {
             Log.d(LOG_TAG, "Setting adapter with today's calendar: $today")
             mWeeksAdapter = WeeksAdapter(context, today, monthColor, selectedDayTextColor, currentDayTextColor, pastDayTextColor,
                     circleBackgroundColor, cellPastBackgroundColor, cellNowadaysDayColor)
-            listViewWeeks!!.adapter = mWeeksAdapter
+            listViewWeeks?.adapter = mWeeksAdapter
         }
-        mWeeksAdapter!!.updateWeeksItems(weeks)
+        mWeeksAdapter?.updateWeeksItems()
     }
 
     private fun setUpHeader(today: Calendar, weekDayFormatter: SimpleDateFormat, locale: Locale) {
@@ -193,10 +193,13 @@ open class CalendarView : LinearLayout {
             //      }
         }
 
-        for (i in 0 until mDayNamesHeader!!.childCount) {
-            val txtDay = mDayNamesHeader!!.getChildAt(i) as TextView
-            txtDay.text = dayLabels[i]
+        mDayNamesHeader?.let { namesHeader->
+            for (i in 0 until namesHeader.childCount) {
+                val txtDay = namesHeader.getChildAt(i) as TextView
+                txtDay.text = dayLabels[i]
+            }
         }
+
     }
 
     private fun expandCalendarView() {
@@ -227,29 +230,35 @@ open class CalendarView : LinearLayout {
         if (dayItem != selectedDay) {
             dayItem.isSelected = true
             if (selectedDay != null) {
-                selectedDay!!.isSelected = false
+                selectedDay?.isSelected = false
             }
             selectedDay = dayItem
         }
 
-        for (c in 0 until CalendarManager.instance!!.weeks.size) {
-            if (DateHelper.sameWeek(calendar, CalendarManager.instance!!.weeks[c])) {
-                currentWeekIndex = c
-                break
+        CalendarManager.instance?.weeks?.let { weeks->
+            for (c in 0 until weeks.size) {
+                if (DateHelper.sameWeek(calendar, weeks[c])) {
+                    currentWeekIndex = c
+                    break
+                }
             }
         }
+
 
         if (currentWeekIndex != null) {
             // highlighted day has changed, update the rows concerned
             if (currentWeekIndex != mCurrentListPosition) {
                 updateItemAtPosition(mCurrentListPosition)
             }
-            mCurrentListPosition = currentWeekIndex.toInt()
-            updateItemAtPosition(currentWeekIndex.toInt())
+            currentWeekIndex?.let { index->
+                mCurrentListPosition = index
+                updateItemAtPosition(index)
+            }
+
         }
 
-        CalendarManager.instance!!.currentSelectedDay = calendar
-        CalendarManager.instance!!.currentListPosition = mCurrentListPosition
+        CalendarManager.instance?.currentSelectedDay = calendar
+        CalendarManager.instance?.currentListPosition = mCurrentListPosition
 
         return mCurrentListPosition
     }

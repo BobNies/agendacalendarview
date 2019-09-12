@@ -1,10 +1,10 @@
 package com.ognev.kotlin.agendacalendarview.sample
 
 import android.content.Context
-import androidx.core.content.ContextCompat
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.ognev.kotlin.agendacalendarview.CalendarManager
 import com.ognev.kotlin.agendacalendarview.models.CalendarEvent
 import com.ognev.kotlin.agendacalendarview.render.DefaultEventAdapter
@@ -22,13 +22,16 @@ class SampleEventAgendaAdapter(private var context: Context) : DefaultEventAdapt
 
     override fun getHeaderItemView(view: View, day: Calendar) {
         val txtDayOfMonth = view.findViewById(R.id.view_agenda_day_of_month) as TextView
-        val today = CalendarManager.instance!!.today
 
-        if (DateHelper.sameDate(day, today)) {
-            txtDayOfMonth.setTextColor(ContextCompat.getColor(context, R.color.main_blue))
-        } else {
-            txtDayOfMonth.setTextColor(ContextCompat.getColor(context, R.color.text_light_color))
+        CalendarManager.instance?.today?.let { today ->
+            if (DateHelper.sameDate(day, today)) {
+                txtDayOfMonth.setTextColor(ContextCompat.getColor(context, R.color.main_blue))
+            } else {
+                txtDayOfMonth.setTextColor(ContextCompat.getColor(context, R.color.text_light_color))
+            }
         }
+
+
 
         txtDayOfMonth.text = format.format(day.time)
     }
@@ -50,7 +53,7 @@ class SampleEventAgendaAdapter(private var context: Context) : DefaultEventAdapt
         }
     }
 
-    override fun getEventLayout(hasEvent: Boolean): Int {
-        return if (hasEvent) R.layout.view_agenda_event else R.layout.view_agenda_empty_event
+    override fun getEventLayout(isEmptyEvent: Boolean): Int {
+        return if (isEmptyEvent) R.layout.view_agenda_event else R.layout.view_agenda_empty_event
     }
 }

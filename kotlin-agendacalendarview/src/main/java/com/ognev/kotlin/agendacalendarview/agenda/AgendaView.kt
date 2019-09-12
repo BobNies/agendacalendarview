@@ -61,8 +61,11 @@ class AgendaView : FrameLayout {
                                                 layoutParams.setMargins(0, margin.toInt(), 0, 0)
                                                 setLayoutParams(layoutParams)
                                                 //todo
-                                                if (CalendarManager.instance!!.events.isNotEmpty())
-                                                    agendaListView.scrollToCurrentDate(CalendarManager.instance!!.today)
+                                                CalendarManager.instance?.let { cm ->
+                                                    if (cm.events.isNotEmpty()) {
+                                                        agendaListView.scrollToCurrentDate(cm.today)
+                                                    }
+                                                }
 
                                                 viewTreeObserver.removeOnGlobalLayoutListener(this)
                                             }
@@ -96,7 +99,7 @@ class AgendaView : FrameLayout {
             mover.addListener(object : Animator.AnimatorListener {
                 override
                 fun onAnimationStart(animation: Animator) {
-                    mShadowView!!.visibility = GONE
+                    mShadowView?.visibility = GONE
                 }
 
                 override
@@ -104,7 +107,7 @@ class AgendaView : FrameLayout {
                     if (targetY == 0) {
                         BusProvider.instance.send(Events.AgendaListViewTouchedEvent())
                     }
-                    mShadowView!!.visibility = VISIBLE
+                    mShadowView?.visibility = VISIBLE
                 }
 
                 override

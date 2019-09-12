@@ -60,9 +60,9 @@ class MainActivity : AppCompatActivity(), CalendarController {
         }
 
         contentManager.loadItemsFromStart(eventList)
-        agenda_calendar_view.agendaView.agendaListView.setOnItemClickListener({ parent: AdapterView<*>, view: View, position: Int, id: Long ->
+        agenda_calendar_view.agendaView.agendaListView.setOnItemClickListener { _: AdapterView<*>, view: View, position: Int, _: Long ->
             Toast.makeText(view.context, "item: ".plus(position), Toast.LENGTH_SHORT).show()
-        })
+        }
     }
 
     override fun onStop() {

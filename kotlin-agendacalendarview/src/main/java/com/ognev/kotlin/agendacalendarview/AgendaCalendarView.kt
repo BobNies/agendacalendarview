@@ -72,12 +72,12 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         super.onFinishInflate()
         mCalendarView = findViewById(R.id.calendar_view)
         agendaView = findViewById(R.id.agenda_view)
-        mCalendarView!!.findViewById<LinearLayout>(R.id.cal_day_names).setBackgroundColor(mCalendarHeaderColor)
+        mCalendarView?.findViewById<LinearLayout>(R.id.cal_day_names)?.setBackgroundColor(mCalendarHeaderColor)
 
         BusProvider.instance.toObservable()
                 .subscribe { event ->
                     if (event is Events.DayClickedEvent) {
-                        calendarController!!.onDaySelected((event).day)
+                        calendarController?.onDaySelected((event).day)
                     } else if (event is Events.EventsFetched) {
                         val alphaAnimation = ObjectAnimator.ofFloat(this, "alpha", alpha, 1f).setDuration(500)
                         alphaAnimation.addListener(object : Animator.AnimatorListener {
@@ -108,7 +108,8 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
 
 
     override
-    fun onStickyHeaderChanged(stickyListHeadersListView: StickyListHeadersListView, header: View, position: Int, headerId: Long) {
+    fun onStickyHeaderChanged(stickyListHeadersListView: StickyListHeadersListView,
+                              header: View, position: Int, headerId: Long) {
         if (CalendarManager.instance?.events?.size ?: 0 > 0) {
             CalendarManager.instance?.events?.get(position)?.let { event ->
                 mCalendarView?.scrollToDate(event)

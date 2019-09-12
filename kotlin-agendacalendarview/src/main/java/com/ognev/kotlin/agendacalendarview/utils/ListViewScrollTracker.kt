@@ -10,8 +10,8 @@ class ListViewScrollTracker
 // region Constructor and Accessor(s)
 
 (private val mListView: AgendaListView) {
-    private var mPositions: SparseArray<Integer>? = null
-    private val mListViewItemHeights = SparseArray<Integer>()
+    private var mPositions: SparseArray<Int>? = null
+    private val mListViewItemHeights = SparseArray<Int>()
     private var mFirstVisiblePosition: Int = 0
     var referencePosition = -1
         private set // Position of the current date in the Agenda listView
@@ -38,7 +38,7 @@ class ListViewScrollTracker
         // Store new positions
         mPositions = SparseArray()
         for (i in 0 until visibleItemCount) {
-            mPositions!!.put(firstVisiblePosition + i, mListView.getListChildAt(i).top as Integer)
+            mPositions?.put(firstVisiblePosition + i, mListView.getListChildAt(i).top)
         }
 
         if (previousPositions != null) {
@@ -47,7 +47,7 @@ class ListViewScrollTracker
             for (i in 0 until previousPositions.size()) {
                 val previousPosition = previousPositions.keyAt(i)
                 val previousTop = previousPositions.get(previousPosition)
-                val newTop = mPositions!!.get(previousPosition)
+                val newTop = mPositions?.get(previousPosition)
                 if (newTop != null) {
                     return newTop.toInt() - previousTop.toInt()
                 }
@@ -77,12 +77,12 @@ class ListViewScrollTracker
         if (visibleItemCount > 0) {
             val c = mListView.getListChildAt(0) // this is the first visible row
             var scrollY = -c.top
-            mListViewItemHeights.put(firstVisiblePosition, c.measuredHeight as Integer)
+            mListViewItemHeights.put(firstVisiblePosition, c.measuredHeight)
 
             if (mFirstVisiblePosition >= referencePosition) {
                 for (i in referencePosition until firstVisiblePosition) {
                     if (mListViewItemHeights.get(i) == null) {
-                        mListViewItemHeights.put(i, c.measuredHeight as Integer)
+                        mListViewItemHeights.put(i, c.measuredHeight)
                     }
                     scrollY += mListViewItemHeights.get(i).toInt() // add all heights of the views that are gone
                 }
@@ -90,7 +90,7 @@ class ListViewScrollTracker
             } else {
                 for (i in referencePosition - 1 downTo firstVisiblePosition) {
                     if (mListViewItemHeights.get(i) == null) {
-                        mListViewItemHeights.put(i, c.measuredHeight as Integer)
+                        mListViewItemHeights.put(i, c.measuredHeight)
                     }
                     scrollY -= mListViewItemHeights.get(i).toInt()
                 }

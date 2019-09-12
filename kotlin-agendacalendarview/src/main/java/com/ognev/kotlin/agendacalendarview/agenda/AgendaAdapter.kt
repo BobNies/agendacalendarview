@@ -15,10 +15,10 @@ import java.util.*
  * Adapter for the agenda, implements StickyListHeadersAdapter.
  * Days as sections and CalendarEvents as list items.
  */
-class AgendaAdapter: BaseAdapter(), StickyListHeadersAdapter {
+class AgendaAdapter : BaseAdapter(), StickyListHeadersAdapter {
 
     override fun getCount(): Int {
-        return CalendarManager.instance!!.events.size
+        return CalendarManager.instance?.events?.size ?: 0
     }
 
     private val mRenderers = ArrayList<EventAdapter<CalendarEvent>>()
@@ -30,20 +30,18 @@ class AgendaAdapter: BaseAdapter(), StickyListHeadersAdapter {
     override
     fun getHeaderView(position: Int, convertView: View?, parent: ViewGroup): View {
         var agendaHeaderView = convertView
-        val eventAdapter: EventAdapter<CalendarEvent> ? = mRenderers[0]
+        val eventAdapter: EventAdapter<CalendarEvent>? = mRenderers[0]
 
         if (agendaHeaderView == null) {
-            agendaHeaderView = LayoutInflater.from(parent.context).
-                    inflate(eventAdapter!!.getHeaderLayout(), parent, false)
+            agendaHeaderView = LayoutInflater.from(parent.context).inflate(eventAdapter!!.getHeaderLayout(), parent, false)
         }
 
-        if (CalendarManager.instance!!.events.isNotEmpty()) {
-            eventAdapter!!.getHeaderItemView(agendaHeaderView!!, getItem(position).instanceDay)
+        if (CalendarManager.instance?.events?.isNotEmpty() == true) {
+            agendaHeaderView?.let { eventAdapter?.getHeaderItemView(it, getItem(position).instanceDay) }
         }
 
         return agendaHeaderView!!
     }
-
 
 
     override
@@ -77,8 +75,7 @@ class AgendaAdapter: BaseAdapter(), StickyListHeadersAdapter {
         }
 
         convertView = LayoutInflater.from(parent.context)
-                .inflate(eventAdapter.getEventLayout(CalendarManager.
-                        instance!!.events[position].hasEvent()), parent, false)
+                .inflate(eventAdapter.getEventLayout(CalendarManager.instance!!.events[position].hasEvent()), parent, false)
 
         eventAdapter.getEventItemView(convertView, event, position)
 

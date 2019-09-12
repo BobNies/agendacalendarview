@@ -76,7 +76,7 @@ class FloatingActionButton : FloatingActionButton {
                     return
                 }
             }
-            val translationY: Float = if (visible) 0f else height + marginBottom as Float
+            val translationY: Float = if (visible) 0f else height + marginBottom.toFloat()
             if (animate) {
                 animate().setInterpolator(mInterpolator)
                         .setDuration(TRANSLATE_DURATION_MILLIS)

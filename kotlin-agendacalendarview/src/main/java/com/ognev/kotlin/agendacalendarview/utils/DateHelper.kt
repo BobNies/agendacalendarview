@@ -2,14 +2,11 @@ package com.ognev.kotlin.agendacalendarview.utils
 
 import android.content.Context
 import com.ognev.kotlin.agendacalendarview.CalendarManager
-import com.ognev.kotlin.agendacalendarview.models.IWeekItem
 import com.ognev.kotlin.agendacalendarview.R
-
+import com.ognev.kotlin.agendacalendarview.models.IWeekItem
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -29,9 +26,9 @@ object DateHelper {
      * @return True if both instances have the same time.
      */
     fun sameDate(cal: Calendar, selectedDate: Calendar): Boolean {
-        return cal.get(Calendar.MONTH) === selectedDate.get(Calendar.MONTH)
-                && cal.get(Calendar.YEAR) === selectedDate.get(Calendar.YEAR)
-                && cal.get(Calendar.DAY_OF_MONTH) === selectedDate.get(Calendar.DAY_OF_MONTH)
+        return cal.get(Calendar.MONTH) == selectedDate.get(Calendar.MONTH)
+                && cal.get(Calendar.YEAR) == selectedDate.get(Calendar.YEAR)
+                && cal.get(Calendar.DAY_OF_MONTH) == selectedDate.get(Calendar.DAY_OF_MONTH)
     }
 
     /**
@@ -47,9 +44,9 @@ object DateHelper {
     fun sameDate(cal: Calendar, selectedDate: Date): Boolean {
         val selectedCal = Calendar.getInstance()
         selectedCal.time = selectedDate
-        return cal.get(Calendar.MONTH) === selectedCal.get(Calendar.MONTH)
-                && cal.get(Calendar.YEAR) === selectedCal.get(Calendar.YEAR)
-                && cal.get(Calendar.DAY_OF_MONTH) === selectedCal.get(Calendar.DAY_OF_MONTH)
+        return cal.get(Calendar.MONTH) == selectedCal.get(Calendar.MONTH)
+                && cal.get(Calendar.YEAR) == selectedCal.get(Calendar.YEAR)
+                && cal.get(Calendar.DAY_OF_MONTH) == selectedCal.get(Calendar.DAY_OF_MONTH)
     }
 
     /**
@@ -80,7 +77,7 @@ object DateHelper {
      * @return True if both instances are in the same week.
      */
     fun sameWeek(cal: Calendar, week: IWeekItem): Boolean {
-        return cal.get(Calendar.WEEK_OF_YEAR) === week.weekInYear && cal.get(Calendar.YEAR) === week.year
+        return cal.get(Calendar.WEEK_OF_YEAR) == week.weekInYear && cal.get(Calendar.YEAR) == week.year
     }
 
     /**
@@ -90,8 +87,8 @@ object DateHelper {
      * *
      * @return A string of the form "Xd" or either "XhXm".
      */
-    fun getDuration(context: Context, millis: Long): String {
-        var millis = millis
+    fun getDuration(context: Context, ms: Long): String {
+        var millis = ms
         require(millis >= 0) { "Duration must be greater than zero!" }
 
         val days = TimeUnit.MILLISECONDS.toDays(millis)
@@ -134,7 +131,7 @@ object DateHelper {
 
         val yearLessPattern = pattern.replace("\\W?[Yy]+\\W?", "")
         val yearLessSDF = SimpleDateFormat(yearLessPattern, locale)
-        var yearLessDate = yearLessSDF.format(calendar.time).toUpperCase()
+        var yearLessDate = yearLessSDF.format(calendar.time).toUpperCase(Locale.getDefault())
         if (yearLessDate.endsWith(",")) {
             yearLessDate = yearLessDate.substring(0, yearLessDate.length - 1)
         }

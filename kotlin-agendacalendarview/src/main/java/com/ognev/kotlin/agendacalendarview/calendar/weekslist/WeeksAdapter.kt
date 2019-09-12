@@ -22,14 +22,21 @@ import com.ognev.kotlin.agendacalendarview.utils.Events
 import java.text.SimpleDateFormat
 import java.util.*
 
-class WeeksAdapter
-(private val mContext: Context, private val mToday: Calendar, val monthColor: Int,val selectedDayTextColor: Int, val currentDayTextColor: Int, val pastDayTextColor: Int,
- val circleColor: Drawable?, val cellPastBackgroundColor: Int, val cellNowadaysDayColor: Int) : RecyclerView.Adapter<WeeksAdapter.WeekViewHolder>() {
+class WeeksAdapter(private val mContext: Context,
+                   private val mToday: Calendar,
+                   val monthColor: Int,
+                   val selectedDayTextColor: Int,
+                   val currentDayTextColor: Int,
+                   val pastDayTextColor: Int,
+                   val circleColor: Drawable?,
+                   val cellPastBackgroundColor: Int,
+                   val cellNowadaysDayColor: Int
+) : RecyclerView.Adapter<WeeksAdapter.WeekViewHolder>() {
     override fun getItemCount(): Int {
         return weeksList.size
     }
 
-    val weeksList: List<IWeekItem>
+    private val weeksList: List<IWeekItem>
     var isDragging: Boolean = false
         set(dragging) {
             if (dragging != this.isDragging) {
@@ -38,21 +45,13 @@ class WeeksAdapter
             }
         }
     var isAlphaSet: Boolean = false
-//    private val mDayTextColor: Int
-//    private val mPastDayTextColor: Int
-//    private val mCurrentDayColor: Int
 
     init {
-//        this.mDayTextColor = Color.parseColor("#7685a2")
-//        this.mCurrentDayColor = Color.parseColor("#4a76c8")
-//        this.mPastDayTextColor = Color.parseColor("#7685a2")
         weeksList = CalendarManager.instance!!.weeks
     }
 
 
-    fun updateWeeksItems(weekItems: List<IWeekItem>) {
-        //    this.mWeeksList.clear();
-        //    this.mWeeksList.addAll(weekItems);
+    fun updateWeeksItems() {
         notifyDataSetChanged()
     }
 
@@ -98,7 +97,7 @@ class WeeksAdapter
                 val point = cellItem.findViewById<View>(R.id.point)
                 cellItem.setOnClickListener { BusProvider.instance.send(Events.DayClickedEvent(dayItem)) }
 
-                circleView.setBackgroundDrawable(circleColor)
+                circleView.background = circleColor
                 txtMonth.visibility = View.GONE
                 txtDay.setTextColor(pastDayTextColor)
                 txtMonth.setTextColor(monthColor)
@@ -146,11 +145,11 @@ class WeeksAdapter
                 point.visibility = if (dayItem.hasEvents()) View.VISIBLE else View.INVISIBLE
 
                 // Check if the month label has to be displayed
-                if (dayItem.value === 15) {
+                if (dayItem.value == 15) {
                     mTxtMonth.visibility = View.VISIBLE
                     val monthDateFormat = SimpleDateFormat(mContext.getString(R.string.month_half_name_format), CalendarManager.instance!!.locale)
                     var month = monthDateFormat.format(weekItem.date).toUpperCase()
-                    if (today.get(Calendar.YEAR) !== weekItem.year) {
+                    if (today.get(Calendar.YEAR) != weekItem.year) {
                         month += String.format(" %d", weekItem.year)
                     }
                     mTxtMonth.text = month
