@@ -93,17 +93,17 @@ class WeeksAdapter
 
             val dayItems = weekItem.dayItems
 
-            for (c in 0..dayItems.size - 1) {
+            for (c in dayItems.indices) {
                 val dayItem = dayItems[c]
                 val cellItem = mCells!![c]
                 val txtDay = cellItem.findViewById(R.id.view_day_day_label) as TextView
                 val txtMonth = cellItem.findViewById(R.id.view_day_month_label) as TextView
                 val circleView = cellItem.findViewById<View>(R.id.view_day_circle_selected)
                 val point = cellItem.findViewById<View>(R.id.point)
-                cellItem.setOnClickListener({ v -> BusProvider.instance.send(Events.DayClickedEvent(dayItem)) })
+                cellItem.setOnClickListener { BusProvider.instance.send(Events.DayClickedEvent(dayItem)) }
 
                 circleView.setBackgroundDrawable(circleColor)
-                txtMonth.setVisibility(View.GONE)
+                txtMonth.visibility = View.GONE
                 txtDay.setTextColor(pastDayTextColor)
                 txtMonth.setTextColor(monthColor)
                 circleView.setVisibility(View.GONE)

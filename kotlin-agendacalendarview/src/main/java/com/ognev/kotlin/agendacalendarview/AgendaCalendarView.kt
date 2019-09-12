@@ -64,7 +64,7 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.view_agendacalendar, this, true)
 
-        setAlpha(0f)
+        alpha = 0f
     }
 
 
