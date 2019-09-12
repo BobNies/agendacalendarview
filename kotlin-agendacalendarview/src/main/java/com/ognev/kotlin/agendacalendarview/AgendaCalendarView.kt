@@ -4,9 +4,9 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.support.annotation.NonNull
-import android.support.v4.content.ContextCompat
-import android.support.v4.widget.SwipeRefreshLayout
+import androidx.annotation.NonNull
+import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -156,15 +156,15 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
     }
 
     fun showProgress() {
-        (findViewById(R.id.refresh_layout) as SwipeRefreshLayout).isRefreshing = true
+        (findViewById(R.id.refresh_layout) as androidx.swiperefreshlayout.widget.SwipeRefreshLayout).isRefreshing = true
     }
 
     fun hideProgress() {
-        (findViewById(R.id.refresh_layout) as SwipeRefreshLayout).isRefreshing = false
+        (findViewById(R.id.refresh_layout) as androidx.swiperefreshlayout.widget.SwipeRefreshLayout).isRefreshing = false
     }
 
     fun isCalendarLoading(): Boolean {
-        return (findViewById(R.id.refresh_layout) as SwipeRefreshLayout).isRefreshing
+        return (findViewById(R.id.refresh_layout) as androidx.swiperefreshlayout.widget.SwipeRefreshLayout).isRefreshing
     }
 
 }

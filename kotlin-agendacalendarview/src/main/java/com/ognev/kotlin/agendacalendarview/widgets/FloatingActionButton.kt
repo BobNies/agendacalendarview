@@ -5,11 +5,12 @@ import android.util.AttributeSet
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /**
  * Floating action button helping to scroll back to the current date.
  */
-class FloatingActionButton : android.support.design.widget.FloatingActionButton {
+class FloatingActionButton : FloatingActionButton {
 
     var isVisible = true
         private set

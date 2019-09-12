@@ -2,7 +2,7 @@ package com.ognev.kotlin.agendacalendarview.calendar
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -74,7 +74,7 @@ open class CalendarView : LinearLayout {
 
         mDayNamesHeader = findViewById(R.id.cal_day_names) as LinearLayout
         listViewWeeks = findViewById(R.id.list_week) as WeekListView
-        listViewWeeks!!.layoutManager = LinearLayoutManager(getContext())
+        listViewWeeks!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(getContext())
         listViewWeeks!!.setHasFixedSize(true)
         listViewWeeks!!.itemAnimator = null
         listViewWeeks!!.setSnapEnabled(true)
@@ -160,7 +160,7 @@ open class CalendarView : LinearLayout {
     // region Private methods
 
     private fun scrollToPosition(targetPosition: Int) {
-        val layoutManager = listViewWeeks!!.getLayoutManager() as LinearLayoutManager
+        val layoutManager = listViewWeeks!!.getLayoutManager() as androidx.recyclerview.widget.LinearLayoutManager
         layoutManager.scrollToPosition(targetPosition)
     }
 

@@ -1,13 +1,13 @@
 package com.ognev.kotlin.agendacalendarview.calendar.weekslist
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import com.ognev.kotlin.agendacalendarview.utils.BusProvider
 import com.ognev.kotlin.agendacalendarview.utils.Events
 
-class WeekListView : RecyclerView {
+class WeekListView : androidx.recyclerview.widget.RecyclerView {
     private var mUserScrolling = false
     private var mScrolling = false
 
@@ -42,12 +42,12 @@ class WeekListView : RecyclerView {
 
     private val mScrollListener = object : OnScrollListener() {
         override
-        fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
         }
 
         override
-        fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+        fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
             val weeksAdapter = getAdapter() as WeeksAdapter
 
