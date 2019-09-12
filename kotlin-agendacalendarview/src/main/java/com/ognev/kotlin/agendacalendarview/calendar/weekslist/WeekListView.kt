@@ -49,7 +49,7 @@ class WeekListView : androidx.recyclerview.widget.RecyclerView {
         override
         fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
-            val weeksAdapter = getAdapter() as WeeksAdapter
+            val weeksAdapter = adapter as WeeksAdapter
 
             when (newState) {
                 SCROLL_STATE_IDLE -> {
@@ -81,19 +81,19 @@ class WeekListView : androidx.recyclerview.widget.RecyclerView {
     }
 
     private fun getChildClosestToPosition(y: Int): View? {
-        if (getChildCount() <= 0) {
+        if (childCount <= 0) {
             return null
         }
 
-        val itemHeight = getChildAt(0).getMeasuredHeight()
+        val itemHeight = getChildAt(0).measuredHeight
 
         var closestY = 9999
         var closestChild: View? = null
 
-        for (i in 0..getChildCount() - 1) {
+        for (i in 0 until childCount) {
             val child = getChildAt(i)
 
-            val childCenterY = child.getY() + itemHeight / 2
+            val childCenterY = child.y + itemHeight / 2
             val yDistance = childCenterY - y
 
             // If child center is closer than previous closest, set it as closest
@@ -124,10 +124,10 @@ class WeekListView : androidx.recyclerview.widget.RecyclerView {
     }
 
     private fun getScrollDistance(child: View): Int {
-        val itemHeight = getChildAt(0).getMeasuredHeight()
-        val centerY = getMeasuredHeight() / 2
+        val itemHeight = getChildAt(0).measuredHeight
+        val centerY = measuredHeight / 2
 
-        val childCenterY = child.getY() + itemHeight / 2
+        val childCenterY = child.y + itemHeight / 2
 
         return childCenterY.toInt() - centerY
     }

@@ -52,14 +52,8 @@ class CalendarManager
     var currentListPosition: Int = 0
 
     fun buildCal(minDate: Calendar?, maxDate: Calendar?) {
-        if (minDate == null || maxDate == null) {
-            throw IllegalArgumentException(
-                    "minDate and maxDate must be non-null.")
-        }
-        if (minDate!!.after(maxDate)) {
-            throw IllegalArgumentException(
-                    "minDate must be before maxDate.")
-        }
+        require(!(minDate == null || maxDate == null)) { "minDate and maxDate must be non-null." }
+        require(!minDate.after(maxDate)) { "minDate must be before maxDate." }
 
         days.clear()
         weeks.clear()
@@ -139,7 +133,7 @@ class CalendarManager
                         val copy = event.copy()
 
                         val dayInstance = Calendar.getInstance(locale)
-                        dayInstance.setTime(dayItem.date)
+                        dayInstance.time = dayItem.date
                         copy.setEventInstanceDay(dayInstance)
                         copy.event = event.event
                         copy.dayReference = (dayItem)
@@ -153,7 +147,7 @@ class CalendarManager
                 }
                 if (!isEventForDay) {
                     val dayInstance = Calendar.getInstance(locale)
-                    dayInstance.setTime(dayItem.date)
+                    dayInstance.time = dayItem.date
                     val copy = noEvent.copy()
 
                     copy.setEventInstanceDay(dayInstance)

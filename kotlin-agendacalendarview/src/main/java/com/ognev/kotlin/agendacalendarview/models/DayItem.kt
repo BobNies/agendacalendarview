@@ -41,7 +41,7 @@ class DayItem
     fun toString(): String {
         return "DayItem{"
                 .plus("Date='")
-                .plus(date!!.toString())
+                .plus(date.toString())
                 .plus(", value=")
                 .plus(value)
                 .plus('}')
@@ -52,7 +52,7 @@ class DayItem
         // region Public methods
 
         fun buildDayItemFromCal(calendar: Calendar): DayItem {
-            val date = calendar.getTime()
+            val date = calendar.time
             val isToday = DateHelper.sameDate(calendar, CalendarManager.instance!!.today)
             val value = calendar.get(Calendar.DAY_OF_MONTH)
             val dayItem = DayItem(date, value, isToday, CalendarManager.instance!!.monthHalfNameFormat!!.format(date))

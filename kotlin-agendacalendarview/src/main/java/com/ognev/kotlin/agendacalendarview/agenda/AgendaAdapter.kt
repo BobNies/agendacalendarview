@@ -34,7 +34,7 @@ class AgendaAdapter: BaseAdapter(), StickyListHeadersAdapter {
     override
     fun getHeaderView(position: Int, convertView: View?, parent: ViewGroup): View {
         var agendaHeaderView = convertView
-        var eventAdapter: EventAdapter<CalendarEvent> ? = mRenderers[0]
+        val eventAdapter: EventAdapter<CalendarEvent> ? = mRenderers[0]
 
         if (agendaHeaderView == null) {
             agendaHeaderView = LayoutInflater.from(parent.context).

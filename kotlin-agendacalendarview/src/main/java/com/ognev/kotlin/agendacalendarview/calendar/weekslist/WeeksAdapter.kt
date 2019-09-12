@@ -61,7 +61,7 @@ class WeeksAdapter
 
     override
     fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeekViewHolder {
-        val view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_week, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_week, parent, false)
         return WeekViewHolder(view)
     }
 
@@ -78,11 +78,10 @@ class WeeksAdapter
          * List of layout containers for each day
          */
         private var mCells: List<LinearLayout>? = null
-        private val mTxtMonth: TextView
+        private val mTxtMonth: TextView = itemView.findViewById(R.id.month_label) as TextView
         private val mMonthBackground: FrameLayout
 
         init {
-            mTxtMonth = itemView.findViewById(R.id.month_label) as TextView
             mMonthBackground = itemView.findViewById(R.id.month_background) as FrameLayout
             val daysContainer = itemView.findViewById(R.id.week_days_container) as LinearLayout
             setUpChildren(daysContainer)
@@ -106,7 +105,7 @@ class WeeksAdapter
                 txtMonth.visibility = View.GONE
                 txtDay.setTextColor(pastDayTextColor)
                 txtMonth.setTextColor(monthColor)
-                circleView.setVisibility(View.GONE)
+                circleView.visibility = View.GONE
 
                 //        point.setVisibility(dayItem.hasEvents() ? View.VISIBLE : View.GONE);
 
@@ -155,7 +154,7 @@ class WeeksAdapter
                     val monthDateFormat = SimpleDateFormat(mContext.getString(R.string.month_half_name_format), CalendarManager.instance!!.locale)
                     var month = monthDateFormat.format(weekItem.date).toUpperCase()
                     if (today.get(Calendar.YEAR) !== weekItem.year) {
-                        month = month + String.format(" %d", weekItem.year)
+                        month += String.format(" %d", weekItem.year)
                     }
                     mTxtMonth.text = month
                 }
@@ -164,19 +163,19 @@ class WeeksAdapter
 
         private fun setUpChildren(daysContainer: LinearLayout) {
             mCells = ArrayList()
-            for (i in 0..daysContainer.childCount - 1) {
+            for (i in 0 until daysContainer.childCount) {
                 (mCells as ArrayList<LinearLayout>).add(daysContainer.getChildAt(i) as LinearLayout)
             }
         }
 
         private fun setUpMonthOverlay() {
-            mTxtMonth.setVisibility(View.GONE)
+            mTxtMonth.visibility = View.GONE
 
             if (isDragging) {
                 val animatorSetFadeIn = AnimatorSet()
-                animatorSetFadeIn.setDuration(FADE_DURATION)
-                val animatorTxtAlphaIn = ObjectAnimator.ofFloat(mTxtMonth, "alpha", mTxtMonth.getAlpha(), 1f)
-                val animatorBackgroundAlphaIn = ObjectAnimator.ofFloat(mMonthBackground, "alpha", mMonthBackground.getAlpha(), 1f)
+                animatorSetFadeIn.duration = FADE_DURATION
+                val animatorTxtAlphaIn = ObjectAnimator.ofFloat(mTxtMonth, "alpha", mTxtMonth.alpha, 1f)
+                val animatorBackgroundAlphaIn = ObjectAnimator.ofFloat(mMonthBackground, "alpha", mMonthBackground.alpha, 1f)
                 animatorSetFadeIn.playTogether(
                         animatorTxtAlphaIn
                         //animatorBackgroundAlphaIn
@@ -205,9 +204,9 @@ class WeeksAdapter
                 animatorSetFadeIn.start()
             } else {
                 val animatorSetFadeOut = AnimatorSet()
-                animatorSetFadeOut.setDuration(FADE_DURATION)
-                val animatorTxtAlphaOut = ObjectAnimator.ofFloat(mTxtMonth, "alpha", mTxtMonth.getAlpha(), 0f)
-                val animatorBackgroundAlphaOut = ObjectAnimator.ofFloat(mMonthBackground, "alpha", mMonthBackground.getAlpha(), 0f)
+                animatorSetFadeOut.duration = FADE_DURATION
+                val animatorTxtAlphaOut = ObjectAnimator.ofFloat(mTxtMonth, "alpha", mTxtMonth.alpha, 0f)
+                val animatorBackgroundAlphaOut = ObjectAnimator.ofFloat(mMonthBackground, "alpha", mMonthBackground.alpha, 0f)
                 animatorSetFadeOut.playTogether(
                         animatorTxtAlphaOut
                         //animatorBackgroundAlphaOut
@@ -238,17 +237,17 @@ class WeeksAdapter
 
             if (isAlphaSet) {
                 //mMonthBackground.setAlpha(1f);
-                mTxtMonth.setAlpha(1f)
+                mTxtMonth.alpha = 1f
             } else {
                 //mMonthBackground.setAlpha(0f);
-                mTxtMonth.setAlpha(0f)
+                mTxtMonth.alpha = 0f
             }
         }
     }
 
     companion object {
 
-        val FADE_DURATION: Long = 250
+        const val FADE_DURATION: Long = 250
     }
 
     // endregion

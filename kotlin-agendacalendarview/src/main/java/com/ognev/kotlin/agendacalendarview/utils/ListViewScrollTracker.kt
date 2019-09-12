@@ -37,19 +37,19 @@ class ListViewScrollTracker
 
         // Store new positions
         mPositions = SparseArray()
-        for (i in 0..visibleItemCount - 1) {
-            mPositions!!.put(firstVisiblePosition + i, mListView.getListChildAt(i).getTop() as Integer)
+        for (i in 0 until visibleItemCount) {
+            mPositions!!.put(firstVisiblePosition + i, mListView.getListChildAt(i).top as Integer)
         }
 
         if (previousPositions != null) {
             // Find position which exists in both mPositions and previousPositions, then return the difference
             // of the new and old Y values.
-            for (i in 0..previousPositions!!.size() - 1) {
-                val previousPosition = previousPositions!!.keyAt(i)
-                val previousTop = previousPositions!!.get(previousPosition)
+            for (i in 0 until previousPositions.size()) {
+                val previousPosition = previousPositions.keyAt(i)
+                val previousTop = previousPositions.get(previousPosition)
                 val newTop = mPositions!!.get(previousPosition)
                 if (newTop != null) {
-                    return newTop.toInt()!! - previousTop.toInt()
+                    return newTop.toInt() - previousTop.toInt()
                 }
             }
         }
@@ -76,11 +76,11 @@ class ListViewScrollTracker
 
         if (visibleItemCount > 0) {
             val c = mListView.getListChildAt(0) // this is the first visible row
-            var scrollY = -c.getTop()
+            var scrollY = -c.top
             mListViewItemHeights.put(firstVisiblePosition, c.measuredHeight as Integer)
 
             if (mFirstVisiblePosition >= referencePosition) {
-                for (i in referencePosition..firstVisiblePosition - 1) {
+                for (i in referencePosition until firstVisiblePosition) {
                     if (mListViewItemHeights.get(i) == null) {
                         mListViewItemHeights.put(i, c.measuredHeight as Integer)
                     }

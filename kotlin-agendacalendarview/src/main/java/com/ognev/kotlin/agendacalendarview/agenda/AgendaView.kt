@@ -27,23 +27,23 @@ class AgendaView : FrameLayout {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.view_agenda, this, true)
 
-        (findViewById(R.id.refresh_layout) as androidx.swiperefreshlayout.widget.SwipeRefreshLayout).isEnabled = false
+        (findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.refresh_layout)).isEnabled = false
     }
 
 
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-        agendaListView = findViewById(R.id.agenda_listview) as AgendaListView
+        agendaListView = findViewById<AgendaListView>(R.id.agenda_listview)
         mShadowView = findViewById(R.id.view_shadow)
 
         BusProvider.instance.toObserverable()
-                .subscribe({ event ->
+                .subscribe { event ->
                     if (event is Events.DayClickedEvent) {
                         val clickedEvent = event
                         agendaListView.scrollToCurrentDate(clickedEvent.calendar)
                     } else if (event is Events.CalendarScrolledEvent) {
-                        val offset = (3 * getResources().getDimension(R.dimen.day_cell_height))
+                        val offset = (3 * resources.getDimension(R.dimen.day_cell_height))
                         translateList(offset.toInt())
                     } else if (event is Events.EventsFetched) {
                         (agendaListView.adapter as AgendaAdapter).updateEvents()
@@ -56,7 +56,7 @@ class AgendaView : FrameLayout {
                                             // display only two visible rows on the calendar view
                                             val layoutParams = layoutParams as ViewGroup.MarginLayoutParams
                                             val height = height
-                                            val margin = (getContext().getResources().getDimension(R.dimen.calendar_header_height) + 2 * getContext().getResources().getDimension(R.dimen.day_cell_height))
+                                            val margin = (context.resources.getDimension(R.dimen.calendar_header_height) + 2 * context.resources.getDimension(R.dimen.day_cell_height))
                                             layoutParams.height = height
                                             layoutParams.setMargins(0, margin.toInt(), 0, 0)
                                             setLayoutParams(layoutParams)
@@ -72,7 +72,7 @@ class AgendaView : FrameLayout {
                     } else if (event is Events.ForecastFetched) {
                         (agendaListView.adapter as AgendaAdapter).updateEvents()
                     }
-                })
+                }
     }
 
     override

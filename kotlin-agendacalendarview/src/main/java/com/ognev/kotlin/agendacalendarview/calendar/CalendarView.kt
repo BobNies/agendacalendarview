@@ -64,7 +64,7 @@ open class CalendarView : LinearLayout {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.view_calendar, this, true)
 
-        setOrientation(VERTICAL)
+        orientation = VERTICAL
     }
 
     // region Class - View
@@ -72,9 +72,9 @@ open class CalendarView : LinearLayout {
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-        mDayNamesHeader = findViewById(R.id.cal_day_names) as LinearLayout
-        listViewWeeks = findViewById(R.id.list_week) as WeekListView
-        listViewWeeks!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(getContext())
+        mDayNamesHeader = findViewById<LinearLayout>(R.id.cal_day_names)
+        listViewWeeks = findViewById<WeekListView>(R.id.list_week)
+        listViewWeeks!!.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         listViewWeeks!!.setHasFixedSize(true)
         listViewWeeks!!.itemAnimator = null
         listViewWeeks!!.setSnapEnabled(true)
@@ -84,7 +84,7 @@ open class CalendarView : LinearLayout {
                 object : ViewTreeObserver.OnGlobalLayoutListener {
                     override
                     fun onGlobalLayout() {
-                        if (getWidth() !== 0 && getHeight() !== 0) {
+                        if (width !== 0 && height !== 0) {
                             collapseCalendarView()
                             viewTreeObserver.removeGlobalOnLayoutListener(this)
                         }
@@ -97,7 +97,7 @@ open class CalendarView : LinearLayout {
         super.onAttachedToWindow()
 
         BusProvider.instance.toObserverable()
-                .subscribe({ event ->
+                .subscribe { event ->
                     if (event is Events.CalendarScrolledEvent) {
                         expandCalendarView()
                     } else if (event is Events.AgendaListViewTouchedEvent) {
@@ -106,7 +106,7 @@ open class CalendarView : LinearLayout {
                         val clickedEvent = event
                         updateSelectedDay(clickedEvent.calendar, clickedEvent.day)
                     }
-                })
+                }
     }
 
     // endregion
@@ -132,13 +132,13 @@ open class CalendarView : LinearLayout {
      * @param calendarEvent The event for the selected position in the agenda listview.
      */
     fun scrollToDate(calendarEvent: CalendarEvent) {
-        listViewWeeks!!.post({ scrollToPosition(updateSelectedDay(calendarEvent.instanceDay, calendarEvent.dayReference)) })
+        listViewWeeks!!.post { scrollToPosition(updateSelectedDay(calendarEvent.instanceDay, calendarEvent.dayReference)) }
     }
 
     fun scrollToDate(today: Calendar, weeks: List<IWeekItem>) {
         var currentWeekIndex: Integer? = null
 
-        for (c in 0..weeks.size - 1) {
+        for (c in weeks.indices) {
             if (DateHelper.sameWeek(today, weeks[c])) {
                 currentWeekIndex = c as Integer
                 break
@@ -147,7 +147,7 @@ open class CalendarView : LinearLayout {
 
         if (currentWeekIndex != null) {
             val finalCurrentWeekIndex = currentWeekIndex
-            listViewWeeks!!.post({ scrollToPosition(finalCurrentWeekIndex!!.toInt()) })
+            listViewWeeks!!.post { scrollToPosition(finalCurrentWeekIndex.toInt()) }
         }
     }
 
@@ -160,12 +160,12 @@ open class CalendarView : LinearLayout {
     // region Private methods
 
     private fun scrollToPosition(targetPosition: Int) {
-        val layoutManager = listViewWeeks!!.getLayoutManager() as androidx.recyclerview.widget.LinearLayoutManager
+        val layoutManager = listViewWeeks!!.layoutManager as androidx.recyclerview.widget.LinearLayoutManager
         layoutManager.scrollToPosition(targetPosition)
     }
 
     private fun updateItemAtPosition(position: Int) {
-        val weeksAdapter = listViewWeeks!!.getAdapter() as WeeksAdapter
+        val weeksAdapter = listViewWeeks!!.adapter as WeeksAdapter
         weeksAdapter.notifyItemChanged(position)
     }
 
@@ -178,7 +178,7 @@ open class CalendarView : LinearLayout {
             Log.d(LOG_TAG, "Setting adapter with today's calendar: " + today.toString())
             mWeeksAdapter = WeeksAdapter(context, today, monthColor, selectedDayTextColor, currentDayTextColor, pastDayTextColor,
                     circleBackgroundColor, cellPastBackgroundColor, cellNowadaysDayColor )
-            listViewWeeks!!.setAdapter(mWeeksAdapter)
+            listViewWeeks!!.adapter = mWeeksAdapter
         }
         mWeeksAdapter!!.updateWeeksItems(weeks)
     }
@@ -198,7 +198,7 @@ open class CalendarView : LinearLayout {
             //      }
         }
 
-        for (i in 0..mDayNamesHeader!!.childCount - 1) {
+        for (i in 0 until mDayNamesHeader!!.childCount) {
             val txtDay = mDayNamesHeader!!.getChildAt(i) as TextView
             txtDay.text = dayLabels[i]
         }
@@ -206,13 +206,13 @@ open class CalendarView : LinearLayout {
 
     private fun expandCalendarView() {
         val layoutParams = layoutParams as ViewGroup.MarginLayoutParams
-        layoutParams.height = (getResources().getDimension(R.dimen.calendar_header_height) + 5 * getResources().getDimension(R.dimen.day_cell_height)).toInt()
+        layoutParams.height = (resources.getDimension(R.dimen.calendar_header_height) + 5 * resources.getDimension(R.dimen.day_cell_height)).toInt()
         setLayoutParams(layoutParams)
     }
 
     private fun collapseCalendarView() {
-        val layoutParams = getLayoutParams() as ViewGroup.MarginLayoutParams
-        layoutParams.height = (getResources().getDimension(R.dimen.calendar_header_height) + 2 * getResources().getDimension(R.dimen.day_cell_height)).toInt()
+        val layoutParams = layoutParams as ViewGroup.MarginLayoutParams
+        layoutParams.height = (resources.getDimension(R.dimen.calendar_header_height) + 2 * resources.getDimension(R.dimen.day_cell_height)).toInt()
         setLayoutParams(layoutParams)
     }
 
@@ -226,10 +226,10 @@ open class CalendarView : LinearLayout {
      * @return The selected row of the weeks list, to be updated.
      */
     fun updateSelectedDay(calendar: Calendar, dayItem: IDayItem): Int {
-        var currentWeekIndex: Integer? = null
+        var currentWeekIndex: Int? = null
 
         // update highlighted/selected day
-        if (!dayItem.equals(selectedDay)) {
+        if (dayItem != selectedDay) {
             dayItem.isSelected = true
             if (selectedDay != null) {
                 selectedDay!!.isSelected = false
@@ -237,20 +237,20 @@ open class CalendarView : LinearLayout {
             selectedDay = dayItem
         }
 
-        for (c in 0..CalendarManager.instance!!.weeks.size - 1) {
+        for (c in 0 until CalendarManager.instance!!.weeks.size) {
             if (DateHelper.sameWeek(calendar, CalendarManager.instance!!.weeks[c])) {
-                currentWeekIndex = c as Integer
+                currentWeekIndex = c
                 break
             }
         }
 
         if (currentWeekIndex != null) {
             // highlighted day has changed, update the rows concerned
-            if (!currentWeekIndex.equals( mCurrentListPosition)) {
+            if (currentWeekIndex != mCurrentListPosition) {
                 updateItemAtPosition(mCurrentListPosition)
             }
-            mCurrentListPosition = currentWeekIndex!!.toInt()
-            updateItemAtPosition(currentWeekIndex!!.toInt())
+            mCurrentListPosition = currentWeekIndex.toInt()
+            updateItemAtPosition(currentWeekIndex.toInt())
         }
 
         CalendarManager.instance!!.currentSelectedDay = calendar
@@ -261,7 +261,7 @@ open class CalendarView : LinearLayout {
 
     companion object {
 
-        private val LOG_TAG = CalendarView::class.java!!.getSimpleName()
+        private val LOG_TAG = CalendarView::class.java.simpleName
     }
 
     // endregion

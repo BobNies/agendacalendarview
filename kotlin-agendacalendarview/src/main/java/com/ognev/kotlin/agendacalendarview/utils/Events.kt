@@ -11,10 +11,9 @@ class Events {
 
     open class DayClickedEvent(var day: IDayItem) {
 
-        var calendar: Calendar
+        var calendar: Calendar = Calendar.getInstance()
 
         init {
-            this.calendar = Calendar.getInstance()
             this.calendar.time = day.date
         }
     }

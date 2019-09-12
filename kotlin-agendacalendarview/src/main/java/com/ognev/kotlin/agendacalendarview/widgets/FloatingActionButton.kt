@@ -58,15 +58,15 @@ class FloatingActionButton : FloatingActionButton {
     private fun toggle(visible: Boolean, animate: Boolean, force: Boolean) {
         if (isVisible != visible || force) {
             isVisible = visible
-            val height = getHeight()
+            val height = height
             if (height == 0 && !force) {
-                val vto = getViewTreeObserver()
-                if (vto.isAlive()) {
+                val vto = viewTreeObserver
+                if (vto.isAlive) {
                     vto.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
                         override
                         fun onPreDraw(): Boolean {
-                            val currentVto = getViewTreeObserver()
-                            if (currentVto.isAlive()) {
+                            val currentVto = viewTreeObserver
+                            if (currentVto.isAlive) {
                                 currentVto.removeOnPreDrawListener(this)
                             }
                             toggle(visible, animate, true)
@@ -90,15 +90,15 @@ class FloatingActionButton : FloatingActionButton {
     private val marginBottom: Int
         get() {
             var marginBottom = 0
-            val layoutParams = getLayoutParams()
+            val layoutParams = layoutParams
             if (layoutParams is ViewGroup.MarginLayoutParams) {
-                marginBottom = (layoutParams as ViewGroup.MarginLayoutParams).bottomMargin
+                marginBottom = layoutParams.bottomMargin
             }
             return marginBottom
         }
 
     companion object {
-        private val TRANSLATE_DURATION_MILLIS: Long = 200
+        private const val TRANSLATE_DURATION_MILLIS: Long = 200
     }
 
     // endregion

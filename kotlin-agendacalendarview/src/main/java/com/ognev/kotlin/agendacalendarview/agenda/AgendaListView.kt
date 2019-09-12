@@ -24,7 +24,7 @@ class AgendaListView : StickyListHeadersListView {
         val events = CalendarManager.instance!!.events
 
         var toIndex = 0
-        for (i in 0..events.size - 1) {
+        for (i in 0 until events.size) {
             if (DateHelper.sameDate(today, events[i].instanceDay)) {
                 toIndex = i
                 break

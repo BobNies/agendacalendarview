@@ -83,7 +83,7 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
                     if (event is Events.DayClickedEvent) {
                         calendarController!!.onDaySelected((event).day)
                     } else if (event is Events.EventsFetched) {
-                        val alphaAnimation = ObjectAnimator.ofFloat(this, "alpha", getAlpha(), 1f).setDuration(500)
+                        val alphaAnimation = ObjectAnimator.ofFloat(this, "alpha", alpha, 1f).setDuration(500)
                         alphaAnimation.addListener(object : Animator.AnimatorListener {
                             override
                             fun onAnimationStart(animation: Animator) {
@@ -156,15 +156,15 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
     }
 
     fun showProgress() {
-        (findViewById(R.id.refresh_layout) as androidx.swiperefreshlayout.widget.SwipeRefreshLayout).isRefreshing = true
+        (findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.refresh_layout)).isRefreshing = true
     }
 
     fun hideProgress() {
-        (findViewById(R.id.refresh_layout) as androidx.swiperefreshlayout.widget.SwipeRefreshLayout).isRefreshing = false
+        (findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.refresh_layout)).isRefreshing = false
     }
 
     fun isCalendarLoading(): Boolean {
-        return (findViewById(R.id.refresh_layout) as androidx.swiperefreshlayout.widget.SwipeRefreshLayout).isRefreshing
+        return (findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.refresh_layout)).isRefreshing
     }
 
 }

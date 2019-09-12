@@ -92,9 +92,7 @@ object DateHelper {
      */
     fun getDuration(context: Context, millis: Long): String {
         var millis = millis
-        if (millis < 0) {
-            throw IllegalArgumentException("Duration must be greater than zero!")
-        }
+        require(millis >= 0) { "Duration must be greater than zero!" }
 
         val days = TimeUnit.MILLISECONDS.toDays(millis)
         millis -= TimeUnit.DAYS.toMillis(days)
@@ -136,7 +134,7 @@ object DateHelper {
 
         val yearLessPattern = pattern.replace("\\W?[Yy]+\\W?", "")
         val yearLessSDF = SimpleDateFormat(yearLessPattern, locale)
-        var yearLessDate = yearLessSDF.format(calendar.getTime()).toUpperCase()
+        var yearLessDate = yearLessSDF.format(calendar.time).toUpperCase()
         if (yearLessDate.endsWith(",")) {
             yearLessDate = yearLessDate.substring(0, yearLessDate.length - 1)
         }
