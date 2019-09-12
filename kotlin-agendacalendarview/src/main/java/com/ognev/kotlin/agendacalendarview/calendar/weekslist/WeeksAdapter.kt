@@ -6,27 +6,25 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.ognev.kotlin.agendacalendarview.CalendarManager
+import com.ognev.kotlin.agendacalendarview.R
 import com.ognev.kotlin.agendacalendarview.models.IWeekItem
 import com.ognev.kotlin.agendacalendarview.utils.BusProvider
 import com.ognev.kotlin.agendacalendarview.utils.DateHelper
 import com.ognev.kotlin.agendacalendarview.utils.Events
-import com.ognev.kotlin.agendacalendarview.R
-
 import java.text.SimpleDateFormat
-import java.util.ArrayList
-import java.util.Calendar
+import java.util.*
 
 class WeeksAdapter
 (private val mContext: Context, private val mToday: Calendar, val monthColor: Int,val selectedDayTextColor: Int, val currentDayTextColor: Int, val pastDayTextColor: Int,
- val circleColor: Drawable?, val cellPastBackgroundColor: Int, val cellNowadaysDayColor: Int) : androidx.recyclerview.widget.RecyclerView.Adapter<WeeksAdapter.WeekViewHolder>() {
+ val circleColor: Drawable?, val cellPastBackgroundColor: Int, val cellNowadaysDayColor: Int) : RecyclerView.Adapter<WeeksAdapter.WeekViewHolder>() {
     override fun getItemCount(): Int {
         return weeksList.size
     }
@@ -72,17 +70,16 @@ class WeeksAdapter
     }
 
 
-    inner class WeekViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
+    inner class WeekViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         /**
          * List of layout containers for each day
          */
         private var mCells: List<LinearLayout>? = null
         private val mTxtMonth: TextView = itemView.findViewById(R.id.month_label) as TextView
-        private val mMonthBackground: FrameLayout
+        private val mMonthBackground: FrameLayout = itemView.findViewById(R.id.month_background) as FrameLayout
 
         init {
-            mMonthBackground = itemView.findViewById(R.id.month_background) as FrameLayout
             val daysContainer = itemView.findViewById(R.id.week_days_container) as LinearLayout
             setUpChildren(daysContainer)
         }

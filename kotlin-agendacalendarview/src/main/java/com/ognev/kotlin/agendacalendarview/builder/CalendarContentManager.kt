@@ -1,9 +1,8 @@
 package com.ognev.kotlin.agendacalendarview.builder
 
-import android.app.Application
 import com.ognev.kotlin.agendacalendarview.AgendaCalendarView
-import com.ognev.kotlin.agendacalendarview.CalendarManager
 import com.ognev.kotlin.agendacalendarview.CalendarController
+import com.ognev.kotlin.agendacalendarview.CalendarManager
 import com.ognev.kotlin.agendacalendarview.agenda.AgendaAdapter
 import com.ognev.kotlin.agendacalendarview.models.BaseCalendarEvent
 import com.ognev.kotlin.agendacalendarview.models.CalendarEvent
@@ -20,7 +19,7 @@ class CalendarContentManager(
 
     private var minDate: Calendar? = null
     private var maxDate: Calendar? = null
-    private var isInitialised: Boolean = false;
+    private var isInitialised: Boolean = false
     var locale: Locale? = null
     private lateinit var calendarManager: CalendarManager
 

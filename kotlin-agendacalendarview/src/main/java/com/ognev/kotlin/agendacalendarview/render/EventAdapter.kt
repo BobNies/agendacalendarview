@@ -1,10 +1,7 @@
 package com.ognev.kotlin.agendacalendarview.render
 
-import androidx.annotation.LayoutRes
 import android.view.View
-import com.ognev.kotlin.agendacalendarview.models.CalendarEvent
-
-import java.lang.reflect.ParameterizedType
+import androidx.annotation.LayoutRes
 import java.util.*
 
 /**

@@ -6,4 +6,4 @@
     android:gravity="center"
     android:padding="4dp"
     android:textColor="@android:color/white"
-    android:textSize="11dp"></TextView>
+    android:textSize="11dp" />

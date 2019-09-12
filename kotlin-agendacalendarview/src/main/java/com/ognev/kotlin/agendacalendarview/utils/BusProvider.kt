@@ -8,15 +8,12 @@ class BusProvider {
 
     private val mBus = SerializedSubject<Any, Any>(PublishSubject.create())
 
-    // endregion
-
-    // region Public methods
 
     fun send(`object`: Any) {
         mBus.onNext(`object`)
     }
 
-    fun toObserverable(): Observable<Any> {
+    fun toObservable(): Observable<Any> {
         return mBus
     }
 
@@ -34,6 +31,5 @@ class BusProvider {
                 return mInstance!!
             }
     }
-
 
 }

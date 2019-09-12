@@ -4,14 +4,14 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.drawable.Drawable
-import androidx.annotation.NonNull
-import androidx.core.content.ContextCompat
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.annotation.NonNull
+import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ognev.kotlin.agendacalendarview.agenda.AgendaAdapter
 import com.ognev.kotlin.agendacalendarview.agenda.AgendaView
 import com.ognev.kotlin.agendacalendarview.calendar.CalendarView
@@ -32,7 +32,6 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
     private var mCalendarView: CalendarView? = null
     lateinit var agendaView: AgendaView
         private set
-    //  private FloatingActionButton mFloatingActionButton;
 
     private var mCalendarHeaderColor: Int = 0
     private var monthCalendarColor: Int = 0
@@ -59,6 +58,7 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         cellNowadaysDayColor = a.getColor(R.styleable.ColorOptionsView_cellNowadaysDayColor, ContextCompat.getColor(context, R.color.white))
         cellPastBackgroundColor = a.getColor(R.styleable.ColorOptionsView_cellPastBackgroundColor, ContextCompat.getColor(context, R.color.calendar_past_days_bg))
         mFabColor = a.getColor(R.styleable.ColorOptionsView_fabColor, ContextCompat.getColor(context, R.color.theme_accent))
+        a.recycle()
 
         val inflater = context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -74,11 +74,7 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         agendaView = findViewById(R.id.agenda_view)
         mCalendarView!!.findViewById<LinearLayout>(R.id.cal_day_names).setBackgroundColor(mCalendarHeaderColor)
 
-//        agendaView.agendaListView.setOnItemClickListener({ parent: AdapterView<*>, view: View, position: Int,
-//                                                           id: Long ->
-//            calendarController!!.onEventSelected(CalendarManager.instance!!.events[position]) })
-
-        BusProvider.instance.toObserverable()
+        BusProvider.instance.toObservable()
                 .subscribe { event ->
                     if (event is Events.DayClickedEvent) {
                         calendarController!!.onDaySelected((event).day)
@@ -113,12 +109,10 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
 
     override
     fun onStickyHeaderChanged(stickyListHeadersListView: StickyListHeadersListView, header: View, position: Int, headerId: Long) {
-
-        if (CalendarManager.instance!!.events.size > 0) {
-            val event = CalendarManager.instance!!.events[position]
-            if (event != null) {
-                mCalendarView!!.scrollToDate(event)
-                calendarController!!.onScrollToDate(event.instanceDay)
+        if (CalendarManager.instance?.events?.size ?: 0 > 0) {
+            CalendarManager.instance?.events?.get(position)?.let { event ->
+                mCalendarView?.scrollToDate(event)
+                calendarController?.onScrollToDate(event.instanceDay)
             }
         }
     }
@@ -134,7 +128,8 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         CalendarManager.getInstance(context).loadCal(lWeeks, lDays, lEvents)
 
         // Feed our views with weeks MutableList and events
-        mCalendarView!!.init(CalendarManager.getInstance(context), monthCalendarColor, selectedDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor,
+        mCalendarView?.init(CalendarManager.getInstance(context), monthCalendarColor,
+                selectedDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor,
                 circleBackgroundColor, cellPastBackgroundColor, cellNowadaysDayColor)
 
         // Load agenda events and scroll to current day
@@ -156,15 +151,15 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
     }
 
     fun showProgress() {
-        (findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.refresh_layout)).isRefreshing = true
+        (findViewById<SwipeRefreshLayout>(R.id.refresh_layout)).isRefreshing = true
     }
 
     fun hideProgress() {
-        (findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.refresh_layout)).isRefreshing = false
+        (findViewById<SwipeRefreshLayout>(R.id.refresh_layout)).isRefreshing = false
     }
 
     fun isCalendarLoading(): Boolean {
-        return (findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.refresh_layout)).isRefreshing
+        return (findViewById<SwipeRefreshLayout>(R.id.refresh_layout)).isRefreshing
     }
 
 }

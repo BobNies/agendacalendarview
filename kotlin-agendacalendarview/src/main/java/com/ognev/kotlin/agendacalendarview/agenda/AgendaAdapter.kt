@@ -1,18 +1,14 @@
 package com.ognev.kotlin.agendacalendarview.agenda
 
-import androidx.annotation.NonNull
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.TextView
+import androidx.annotation.NonNull
 import com.ognev.kotlin.agendacalendarview.CalendarManager
-import com.ognev.kotlin.agendacalendarview.R
 import com.ognev.kotlin.agendacalendarview.models.CalendarEvent
 import com.ognev.kotlin.agendacalendarview.render.EventAdapter
-import com.ognev.kotlin.agendacalendarview.utils.DateHelper
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -41,7 +37,7 @@ class AgendaAdapter: BaseAdapter(), StickyListHeadersAdapter {
                     inflate(eventAdapter!!.getHeaderLayout(), parent, false)
         }
 
-        if (!CalendarManager.instance!!.events.isEmpty()) {
+        if (CalendarManager.instance!!.events.isNotEmpty()) {
             eventAdapter!!.getHeaderItemView(agendaHeaderView!!, getItem(position).instanceDay)
         }
 

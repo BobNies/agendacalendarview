@@ -4,8 +4,6 @@ import android.content.Context
 import android.util.Log
 import com.ognev.kotlin.agendacalendarview.models.*
 import com.ognev.kotlin.agendacalendarview.utils.DateHelper
-import com.ognev.kotlin.agendacalendarview.R
-
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,7 +23,7 @@ class CalendarManager
             weekdayFormatter = SimpleDateFormat(context.getString(R.string.day_name_format), this.locale)
             monthHalfNameFormat = SimpleDateFormat(context.getString(R.string.month_half_name_format), locale)
         }
-    var today = Calendar.getInstance(locale)
+    var today: Calendar = Calendar.getInstance(locale)
     var weekdayFormatter: SimpleDateFormat? = null
         private set
     var monthHalfNameFormat: SimpleDateFormat? = null
@@ -112,7 +110,7 @@ class CalendarManager
                         copy.setEventInstanceDay(dayInstance)
                         copy.dayReference = dayItem
                         copy.weekReference = weekItem
-                        copy.event = event.event;
+                        copy.event = event.event
                         dayItem.setHasEvents(event.hasEvent())
                         // add instances in chronological order
                         events.add(copy)
@@ -231,8 +229,6 @@ class CalendarManager
     }
 
     companion object {
-
-        private val LOG_TAG = CalendarManager::class.java.simpleName
 
         var instance: CalendarManager? = null
             private set

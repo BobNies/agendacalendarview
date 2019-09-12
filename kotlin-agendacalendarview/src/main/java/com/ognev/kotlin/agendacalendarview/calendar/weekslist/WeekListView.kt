@@ -1,23 +1,24 @@
 package com.ognev.kotlin.agendacalendarview.calendar.weekslist
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import com.ognev.kotlin.agendacalendarview.utils.BusProvider
 import com.ognev.kotlin.agendacalendarview.utils.Events
+import kotlin.math.abs
 
-class WeekListView : androidx.recyclerview.widget.RecyclerView {
+class WeekListView : RecyclerView {
     private var mUserScrolling = false
     private var mScrolling = false
 
     // region Constructors
 
-    constructor(context: Context) : super(context) {}
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {}
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     // endregion
 
@@ -41,13 +42,9 @@ class WeekListView : androidx.recyclerview.widget.RecyclerView {
     // region Private methods
 
     private val mScrollListener = object : OnScrollListener() {
-        override
-        fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-        }
 
         override
-        fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
+        fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
             val weeksAdapter = adapter as WeeksAdapter
 
@@ -61,7 +58,7 @@ class WeekListView : androidx.recyclerview.widget.RecyclerView {
                     mUserScrolling = false
                     mScrolling = false
                 }
-            // If scroll is caused by a touch (scroll touch, not any touch)
+                // If scroll is caused by a touch (scroll touch, not any touch)
                 SCROLL_STATE_DRAGGING -> {
                     BusProvider.instance.send(Events.CalendarScrolledEvent() as Any)
                     // If scroll was initiated already, this is not a user scrolling, but probably a tap, else set userScrolling
@@ -97,7 +94,7 @@ class WeekListView : androidx.recyclerview.widget.RecyclerView {
             val yDistance = childCenterY - y
 
             // If child center is closer than previous closest, set it as closest
-            if (Math.abs(yDistance) < Math.abs(closestY)) {
+            if (abs(yDistance) < abs(closestY)) {
                 closestY = yDistance.toInt()
                 closestChild = child
             }
