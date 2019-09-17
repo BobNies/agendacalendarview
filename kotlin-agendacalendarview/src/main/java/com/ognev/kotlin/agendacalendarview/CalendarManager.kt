@@ -12,9 +12,7 @@ import java.util.*
  * Holds reference to the days list of the calendar.
  * As the app is using several views, we want to keep everything in one place.
  */
-class CalendarManager
-
-(val context: Context) {
+class CalendarManager(val context: Context) {
 
     var locale: Locale? = null
         set(locale) {

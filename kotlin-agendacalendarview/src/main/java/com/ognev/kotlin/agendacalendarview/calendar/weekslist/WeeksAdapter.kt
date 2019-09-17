@@ -148,7 +148,7 @@ class WeeksAdapter(private val mContext: Context,
                 if (dayItem.value == 15) {
                     mTxtMonth.visibility = View.VISIBLE
                     val monthDateFormat = SimpleDateFormat(mContext.getString(R.string.month_half_name_format), CalendarManager.instance!!.locale)
-                    var month = monthDateFormat.format(weekItem.date).toUpperCase()
+                    var month = monthDateFormat.format(weekItem.date).toUpperCase(Locale.getDefault())
                     if (today.get(Calendar.YEAR) != weekItem.year) {
                         month += String.format(" %d", weekItem.year)
                     }
