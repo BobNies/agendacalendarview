@@ -33,11 +33,17 @@ class AgendaAdapter : BaseAdapter(), StickyListHeadersAdapter {
         val eventAdapter: EventAdapter<CalendarEvent>? = mRenderers[0]
 
         if (agendaHeaderView == null) {
-            agendaHeaderView = LayoutInflater.from(parent.context).inflate(eventAdapter!!.getHeaderLayout(), parent, false)
+            agendaHeaderView = LayoutInflater.from(parent.context)
+                .inflate(eventAdapter!!.getHeaderLayout(), parent, false)
         }
 
         if (CalendarManager.instance?.events?.isNotEmpty() == true) {
-            agendaHeaderView?.let { eventAdapter?.getHeaderItemView(it, getItem(position).instanceDay) }
+            agendaHeaderView?.let {
+                eventAdapter?.getHeaderItemView(
+                    it,
+                    getItem(position).instanceDay
+                )
+            }
         }
 
         return agendaHeaderView!!
@@ -75,7 +81,11 @@ class AgendaAdapter : BaseAdapter(), StickyListHeadersAdapter {
         }
 
         convertView = LayoutInflater.from(parent.context)
-                .inflate(eventAdapter.getEventLayout(CalendarManager.instance!!.events[position].hasEvent()), parent, false)
+            .inflate(
+                eventAdapter.getEventLayout(CalendarManager.instance!!.events[position].hasEvent()),
+                parent,
+                false
+            )
 
         eventAdapter.getEventItemView(convertView, event, position)
 

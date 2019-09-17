@@ -24,7 +24,7 @@ class AgendaView : FrameLayout {
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
 
         val inflater = context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.view_agenda, this, true)
 
         (findViewById<SwipeRefreshLayout>(R.id.refresh_layout)).isEnabled = false
@@ -38,44 +38,47 @@ class AgendaView : FrameLayout {
         mShadowView = findViewById(R.id.view_shadow)
 
         BusProvider.instance.toObservable()
-                .subscribe { event ->
-                    when (event) {
-                        is Events.DayClickedEvent -> agendaListView.scrollToCurrentDate(event.calendar)
-                        is Events.CalendarScrolledEvent -> {
-                            val offset = (3 * resources.getDimension(R.dimen.day_cell_height))
-                            translateList(offset.toInt())
-                        }
-                        is Events.EventsFetched -> {
-                            (agendaListView.adapter as AgendaAdapter).updateEvents()
+            .subscribe { event ->
+                when (event) {
+                    is Events.DayClickedEvent -> agendaListView.scrollToCurrentDate(event.calendar)
+                    is Events.CalendarScrolledEvent -> {
+                        val offset = (3 * resources.getDimension(R.dimen.day_cell_height))
+                        translateList(offset.toInt())
+                    }
+                    is Events.EventsFetched -> {
+                        (agendaListView.adapter as AgendaAdapter).updateEvents()
 
-                            viewTreeObserver.addOnGlobalLayoutListener(
-                                    object : ViewTreeObserver.OnGlobalLayoutListener {
-                                        override
-                                        fun onGlobalLayout() {
-                                            if (width != 0 && height != 0) {
-                                                // display only two visible rows on the calendar view
-                                                val layoutParams = layoutParams as MarginLayoutParams
-                                                val height = height
-                                                val margin = (context.resources.getDimension(R.dimen.calendar_header_height) + 2 * context.resources.getDimension(R.dimen.day_cell_height))
-                                                layoutParams.height = height
-                                                layoutParams.setMargins(0, margin.toInt(), 0, 0)
-                                                setLayoutParams(layoutParams)
-                                                //todo
-                                                CalendarManager.instance?.let { cm ->
-                                                    if (cm.events.isNotEmpty()) {
-                                                        agendaListView.scrollToCurrentDate(cm.today)
-                                                    }
-                                                }
-
-                                                viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        viewTreeObserver.addOnGlobalLayoutListener(
+                            object : ViewTreeObserver.OnGlobalLayoutListener {
+                                override
+                                fun onGlobalLayout() {
+                                    if (width != 0 && height != 0) {
+                                        // display only two visible rows on the calendar view
+                                        val layoutParams = layoutParams as MarginLayoutParams
+                                        val height = height
+                                        val margin =
+                                            (context.resources.getDimension(R.dimen.calendar_header_height) + 2 * context.resources.getDimension(
+                                                R.dimen.day_cell_height
+                                            ))
+                                        layoutParams.height = height
+                                        layoutParams.setMargins(0, margin.toInt(), 0, 0)
+                                        setLayoutParams(layoutParams)
+                                        //todo
+                                        CalendarManager.instance?.let { cm ->
+                                            if (cm.events.isNotEmpty()) {
+                                                agendaListView.scrollToCurrentDate(cm.today)
                                             }
                                         }
+
+                                        viewTreeObserver.removeOnGlobalLayoutListener(this)
                                     }
-                            )
-                        }
-                        is Events.ForecastFetched -> (agendaListView.adapter as AgendaAdapter).updateEvents()
+                                }
+                            }
+                        )
                     }
+                    is Events.ForecastFetched -> (agendaListView.adapter as AgendaAdapter).updateEvents()
                 }
+            }
     }
 
     override
