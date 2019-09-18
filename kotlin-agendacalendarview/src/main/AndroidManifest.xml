@@ -1,4 +1,1 @@
-<manifest
-		package="com.ognev.kotlin.agendacalendarview"
-		>
-</manifest>
+<manifest package="com.ognev.kotlin.agendacalendarview"></manifest>

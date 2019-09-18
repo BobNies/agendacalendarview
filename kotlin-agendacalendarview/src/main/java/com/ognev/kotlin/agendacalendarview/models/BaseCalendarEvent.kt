@@ -30,16 +30,6 @@ open class BaseCalendarEvent : CalendarEvent {
         this.instanceDay.set(Calendar.AM_PM, 0)
         return this
     }
-//    override fun setInstanceDay(mInstanceDay: Calendar): BaseCalendarEvent {
-//        this.mInstanceDay = mInstanceDay
-//        this.mInstanceDay!!.set(Calendar.HOUR, 0)
-//        this.mInstanceDay!!.set(Calendar.MINUTE, 0)
-//        this.mInstanceDay!!.set(Calendar.SECOND, 0)
-//        this.mInstanceDay!!.set(Calendar.MILLISECOND, 0)
-//        this.mInstanceDay!!.set(Calendar.AM_PM, 0)
-//        return this
-//    }
-
 
     override
     fun copy(): CalendarEvent {

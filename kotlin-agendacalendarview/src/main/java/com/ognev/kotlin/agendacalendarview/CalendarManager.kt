@@ -112,7 +112,7 @@ class CalendarManager(val context: Context) {
                         dayItem.setHasEvents(event.hasEvent())
                         // add instances in chronological order
                         events.add(copy)
-                        Log.d("visits", event.startTime.toString())
+                        //Log.d("visits", event.startTime.toString())
                     }
                 }
             }
@@ -137,7 +137,7 @@ class CalendarManager(val context: Context) {
                         dayItem.setHasEvents(event.hasEvent())
                         // add instances in chronological order
                         events.add(copy)
-                        Log.d("visits", event.startTime.toString())
+                        //Log.d("visits", event.startTime.toString())
                         isEventForDay = event.hasEvent()
                     }
                 }
@@ -180,7 +180,7 @@ class CalendarManager(val context: Context) {
                         copy.weekReference = (weekItem)
                         // add instances in chronological order
                         events.add(0, copy)
-                        Log.d("visits", event.startTime.toString())
+                        //Log.d("visits", event.startTime.toString())
                         isEventForDay = event.hasEvent()
                     }
                 }

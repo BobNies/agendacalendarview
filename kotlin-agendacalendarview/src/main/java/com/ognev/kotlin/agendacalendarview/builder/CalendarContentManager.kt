@@ -13,9 +13,9 @@ import java.util.*
  * Created by ognev on 7/5/17.
  */
 class CalendarContentManager(
-        val calendarController: CalendarController,
-        val agendaCalendarView: AgendaCalendarView,
-        val sampleAgendaAdapter: DefaultEventAdapter) {
+    private val calendarController: CalendarController,
+    private val agendaCalendarView: AgendaCalendarView,
+    private val sampleAgendaAdapter: DefaultEventAdapter) {
 
     private var minDate: Calendar? = null
     private var maxDate: Calendar? = null
@@ -25,7 +25,7 @@ class CalendarContentManager(
 
     /*default Locale */
     init {
-        locale = Locale.ENGLISH
+        locale = Locale.getDefault()
     }
 
     fun setDateRange(minDate: Calendar, maxDate: Calendar) {

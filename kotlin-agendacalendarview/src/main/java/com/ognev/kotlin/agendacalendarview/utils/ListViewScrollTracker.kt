@@ -1,6 +1,8 @@
 package com.ognev.kotlin.agendacalendarview.utils
 
+
 import android.util.SparseArray
+import android.util.SparseIntArray
 import com.ognev.kotlin.agendacalendarview.agenda.AgendaListView
 
 /**
@@ -9,11 +11,11 @@ import com.ognev.kotlin.agendacalendarview.agenda.AgendaListView
 class ListViewScrollTracker
 // region Constructor and Accessor(s)
 
-(private val mListView: AgendaListView) {
+    (private val mListView: AgendaListView) {
     private var mPositions: SparseArray<Int>? = null
-    private val mListViewItemHeights = SparseArray<Int>()
+    private val mListViewItemHeights = SparseIntArray()
     private var mFirstVisiblePosition: Int = 0
-    var referencePosition = -1
+    private var referencePosition = -1
         private set // Position of the current date in the Agenda listView
 
     // endregion
@@ -81,18 +83,12 @@ class ListViewScrollTracker
 
             if (mFirstVisiblePosition >= referencePosition) {
                 for (i in referencePosition until firstVisiblePosition) {
-                    if (mListViewItemHeights.get(i) == null) {
-                        mListViewItemHeights.put(i, c.measuredHeight)
-                    }
-                    scrollY += mListViewItemHeights.get(i).toInt() // add all heights of the views that are gone
+                    scrollY += mListViewItemHeights.get(i) // add all heights of the views that are gone
                 }
                 return scrollY
             } else {
                 for (i in referencePosition - 1 downTo firstVisiblePosition) {
-                    if (mListViewItemHeights.get(i) == null) {
-                        mListViewItemHeights.put(i, c.measuredHeight)
-                    }
-                    scrollY -= mListViewItemHeights.get(i).toInt()
+                    scrollY -= mListViewItemHeights.get(i)
                 }
                 return scrollY
             }

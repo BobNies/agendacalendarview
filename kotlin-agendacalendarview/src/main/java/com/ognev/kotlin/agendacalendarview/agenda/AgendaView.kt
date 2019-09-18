@@ -95,7 +95,7 @@ class AgendaView : FrameLayout {
         return super.dispatchTouchEvent(event)
     }
 
-    fun translateList(targetY: Int) {
+    private fun translateList(targetY: Int) {
         if (targetY != translationY.toInt()) {
             val mover = ObjectAnimator.ofFloat(this, "translationY", targetY.toFloat())
             mover.duration = 150

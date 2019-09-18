@@ -4,10 +4,12 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Kotlin-AgendaCalendarView.iml" filepath="$PROJECT_DIR$/Kotlin-AgendaCalendarView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/Kotlin-AgendaCalendarView-app.iml" filepath="$PROJECT_DIR$/app/Kotlin-AgendaCalendarView-app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/kotlin-agendacalendarview/Kotlin-AgendaCalendarView-kotlin-agendacalendarview.iml" filepath="$PROJECT_DIR$/kotlin-agendacalendarview/Kotlin-AgendaCalendarView-kotlin-agendacalendarview.iml" />
       <module fileurl="file://$PROJECT_DIR$/KotlinAgendaCalendarView.iml" filepath="$PROJECT_DIR$/KotlinAgendaCalendarView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../StickyListHeaders/library/StickyListHeaders.iml" filepath="$PROJECT_DIR$/../StickyListHeaders/library/StickyListHeaders.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/kotlin-agendacalendarview/kotlin-agendacalendarview.iml" filepath="$PROJECT_DIR$/kotlin-agendacalendarview/kotlin-agendacalendarview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../move-android-app/move-android-app.iml" filepath="$PROJECT_DIR$/../move-android-app/move-android-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../move-android-app/app/move-android-app-app.iml" filepath="$PROJECT_DIR$/../move-android-app/app/move-android-app-app.iml" />
     </modules>
   </component>
 </project>

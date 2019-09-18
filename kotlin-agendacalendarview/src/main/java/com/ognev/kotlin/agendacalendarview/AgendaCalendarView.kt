@@ -48,20 +48,44 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
 
-        val a = context.obtainStyledAttributes(attrs, R.styleable.ColorOptionsView, 0, 0)
-        mCalendarHeaderColor = a.getColor(R.styleable.ColorOptionsView_calendarHeaderColor, ContextCompat.getColor(context, R.color.theme_primary))
-        monthCalendarColor = a.getColor(R.styleable.ColorOptionsView_calendarMonthTextColor, ContextCompat.getColor(context, R.color.theme_text_icons))
-        selectedDayTextColor = a.getColor(R.styleable.ColorOptionsView_calendarSelectedDayTextColor, ContextCompat.getColor(context, R.color.theme_text_icons))
-        mCalendarCurrentDayColor = a.getColor(R.styleable.ColorOptionsView_calendarCurrentDayTextColor, ContextCompat.getColor(context, R.color.calendar_text_current_day))
-        mCalendarPastDayTextColor = a.getColor(R.styleable.ColorOptionsView_calendarPastDayTextColor, ContextCompat.getColor(context, R.color.theme_light_primary))
-        circleBackgroundColor = a.getDrawable(R.styleable.ColorOptionsView_circleBackgroundColor)
-        cellNowadaysDayColor = a.getColor(R.styleable.ColorOptionsView_cellNowadaysDayColor, ContextCompat.getColor(context, R.color.white))
-        cellPastBackgroundColor = a.getColor(R.styleable.ColorOptionsView_cellPastBackgroundColor, ContextCompat.getColor(context, R.color.calendar_past_days_bg))
-        mFabColor = a.getColor(R.styleable.ColorOptionsView_fabColor, ContextCompat.getColor(context, R.color.theme_accent))
+        val a = context.obtainStyledAttributes(attrs, R.styleable.AgendaCalendarView, 0, 0)
+        mCalendarHeaderColor = a.getColor(
+            R.styleable.AgendaCalendarView_calendarHeaderColor,
+            ContextCompat.getColor(context, R.color.theme_primary)
+        )
+        monthCalendarColor = a.getColor(
+            R.styleable.AgendaCalendarView_calendarMonthTextColor,
+            ContextCompat.getColor(context, R.color.theme_text_icons)
+        )
+        selectedDayTextColor = a.getColor(
+            R.styleable.AgendaCalendarView_calendarSelectedDayTextColor,
+            ContextCompat.getColor(context, R.color.theme_text_icons)
+        )
+        mCalendarCurrentDayColor = a.getColor(
+            R.styleable.AgendaCalendarView_calendarCurrentDayTextColor,
+            ContextCompat.getColor(context, R.color.calendar_text_current_day)
+        )
+        mCalendarPastDayTextColor = a.getColor(
+            R.styleable.AgendaCalendarView_calendarPastDayTextColor,
+            ContextCompat.getColor(context, R.color.theme_light_primary)
+        )
+        circleBackgroundColor = a.getDrawable(R.styleable.AgendaCalendarView_circleBackgroundColor)
+        cellNowadaysDayColor = a.getColor(
+            R.styleable.AgendaCalendarView_cellNowadaysDayColor,
+            ContextCompat.getColor(context, R.color.white)
+        )
+        cellPastBackgroundColor = a.getColor(
+            R.styleable.AgendaCalendarView_cellPastBackgroundColor,
+            ContextCompat.getColor(context, R.color.calendar_past_days_bg)
+        )
+        mFabColor = a.getColor(
+            R.styleable.AgendaCalendarView_fabColor,
+            ContextCompat.getColor(context, R.color.theme_accent)
+        )
         a.recycle()
 
         val inflater = context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.view_agendacalendar, this, true)
 
         alpha = 0f
@@ -72,46 +96,50 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         super.onFinishInflate()
         mCalendarView = findViewById(R.id.calendar_view)
         agendaView = findViewById(R.id.agenda_view)
-        mCalendarView?.findViewById<LinearLayout>(R.id.cal_day_names)?.setBackgroundColor(mCalendarHeaderColor)
+        mCalendarView?.findViewById<LinearLayout>(R.id.cal_day_names)
+            ?.setBackgroundColor(mCalendarHeaderColor)
 
         BusProvider.instance.toObservable()
-                .subscribe { event ->
-                    if (event is Events.DayClickedEvent) {
-                        calendarController?.onDaySelected((event).day)
-                    } else if (event is Events.EventsFetched) {
-                        val alphaAnimation = ObjectAnimator.ofFloat(this, "alpha", alpha, 1f).setDuration(500)
-                        alphaAnimation.addListener(object : Animator.AnimatorListener {
-                            override
-                            fun onAnimationStart(animation: Animator) {
+            .subscribe { event ->
+                if (event is Events.DayClickedEvent) {
+                    calendarController?.onDaySelected((event).day)
+                } else if (event is Events.EventsFetched) {
+                    val alphaAnimation =
+                        ObjectAnimator.ofFloat(this, "alpha", alpha, 1f).setDuration(500)
+                    alphaAnimation.addListener(object : Animator.AnimatorListener {
+                        override
+                        fun onAnimationStart(animation: Animator) {
 
-                            }
+                        }
 
-                            override
-                            fun onAnimationEnd(animation: Animator) {
+                        override
+                        fun onAnimationEnd(animation: Animator) {
 
-                            }
+                        }
 
-                            override
-                            fun onAnimationCancel(animation: Animator) {
+                        override
+                        fun onAnimationCancel(animation: Animator) {
 
-                            }
+                        }
 
-                            override
-                            fun onAnimationRepeat(animation: Animator) {
+                        override
+                        fun onAnimationRepeat(animation: Animator) {
 
-                            }
-                        })
-                        alphaAnimation.start()
-                    }
+                        }
+                    })
+                    alphaAnimation.start()
                 }
+            }
     }
 
 
     override
-    fun onStickyHeaderChanged(stickyListHeadersListView: StickyListHeadersListView,
-                              header: View, position: Int, headerId: Long) {
+    fun onStickyHeaderChanged(
+        l: StickyListHeadersListView,
+        header: View, itemPosition: Int, headerId: Long
+    ) {
         if (CalendarManager.instance?.events?.size ?: 0 > 0) {
-            CalendarManager.instance?.events?.get(position)?.let { event ->
+            CalendarManager.instance?.events?.get(itemPosition)?.let { event ->
                 mCalendarView?.scrollToDate(event)
                 calendarController?.onScrollToDate(event.instanceDay)
             }
@@ -123,15 +151,21 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         this.calendarController = calendarController
     }
 
-    fun init(lWeeks: MutableList<IWeekItem>, lDays: MutableList<IDayItem>, lEvents: MutableList<CalendarEvent>,
-             sampleAgendaAdapter: DefaultEventAdapter) {
+    fun init(
+        lWeeks: MutableList<IWeekItem>,
+        lDays: MutableList<IDayItem>,
+        lEvents: MutableList<CalendarEvent>,
+        sampleAgendaAdapter: DefaultEventAdapter
+    ) {
 
         CalendarManager.getInstance(context).loadCal(lWeeks, lDays, lEvents)
 
         // Feed our views with weeks MutableList and events
-        mCalendarView?.init(CalendarManager.getInstance(context), monthCalendarColor,
-                selectedDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor,
-                circleBackgroundColor, cellPastBackgroundColor, cellNowadaysDayColor)
+        mCalendarView?.init(
+            CalendarManager.getInstance(context), monthCalendarColor,
+            selectedDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor,
+            circleBackgroundColor, cellPastBackgroundColor, cellNowadaysDayColor
+        )
 
         // Load agenda events and scroll to current day
         val agendaAdapter = AgendaAdapter()
@@ -146,7 +180,8 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         addEventRenderer(sampleAgendaAdapter)
     }
 
-    fun addEventRenderer(@NonNull eventAdapter: EventAdapter<*>) {
+    @Suppress("UNCHECKED_CAST")
+    private fun addEventRenderer(@NonNull eventAdapter: EventAdapter<*>) {
         val agendaAdapter = agendaView.agendaListView.adapter as AgendaAdapter
         agendaAdapter.addEventRenderer(eventAdapter as EventAdapter<CalendarEvent>)
     }

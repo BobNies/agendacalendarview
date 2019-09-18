@@ -171,10 +171,9 @@ class WeeksAdapter(private val mContext: Context,
                 val animatorSetFadeIn = AnimatorSet()
                 animatorSetFadeIn.duration = FADE_DURATION
                 val animatorTxtAlphaIn = ObjectAnimator.ofFloat(mTxtMonth, "alpha", mTxtMonth.alpha, 1f)
-                val animatorBackgroundAlphaIn = ObjectAnimator.ofFloat(mMonthBackground, "alpha", mMonthBackground.alpha, 1f)
+
                 animatorSetFadeIn.playTogether(
                         animatorTxtAlphaIn
-                        //animatorBackgroundAlphaIn
                 )
                 animatorSetFadeIn.addListener(object : Animator.AnimatorListener {
                     override
@@ -202,10 +201,8 @@ class WeeksAdapter(private val mContext: Context,
                 val animatorSetFadeOut = AnimatorSet()
                 animatorSetFadeOut.duration = FADE_DURATION
                 val animatorTxtAlphaOut = ObjectAnimator.ofFloat(mTxtMonth, "alpha", mTxtMonth.alpha, 0f)
-                val animatorBackgroundAlphaOut = ObjectAnimator.ofFloat(mMonthBackground, "alpha", mMonthBackground.alpha, 0f)
                 animatorSetFadeOut.playTogether(
                         animatorTxtAlphaOut
-                        //animatorBackgroundAlphaOut
                 )
                 animatorSetFadeOut.addListener(object : Animator.AnimatorListener {
                     override

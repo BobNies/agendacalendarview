@@ -1,1 +1,6 @@
 include ':app', ':kotlin-agendacalendarview'
+
+def apiLibDir = file('../StickyListHeaders/library')
+def rootProjectDescriptor = settings.rootProject
+settings.createProjectDescriptor(rootProjectDescriptor, 'StickyListHeaders', apiLibDir)
+include ':StickyListHeaders'
