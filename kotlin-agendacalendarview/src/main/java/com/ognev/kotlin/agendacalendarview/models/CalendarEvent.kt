@@ -12,7 +12,7 @@ interface CalendarEvent {
 
     val instanceDay: Calendar
 
-    fun setEventInstanceDay(instanceDay: Calendar) : CalendarEvent
+    fun setEventInstanceDay(instanceDay: Calendar): CalendarEvent
 
     var dayReference: IDayItem
 

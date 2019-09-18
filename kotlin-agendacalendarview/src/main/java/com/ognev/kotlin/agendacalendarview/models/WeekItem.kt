@@ -5,19 +5,15 @@ import java.util.Date
 /**
  * Week model class.
  */
-class WeekItem
-// region Constructor
+class WeekItem(
 
-(
-        // endregion
+    override var weekInYear: Int,
+    override var year: Int,
+    override var date: Date,
+    override var label: String,
+    override var month: Int
+) : IWeekItem {
 
-        // region Getters/Setters
-
-        override var weekInYear: Int,
-        override var year: Int,
-        override var date: Date,
-        override var label: String,
-        override var month: Int) : IWeekItem {
     private var hasEvents: Boolean = false
     override lateinit var dayItems: List<IDayItem>
 
@@ -29,18 +25,16 @@ class WeekItem
         this.hasEvents = hasEvents
     }
 
-    // endregion
-
     override
     fun toString(): String {
         return "WeekItem{"
-                .plus("label='")
-                .plus(label)
-                .plus('\'')
-                .plus(", weekInYear=")
-                .plus(weekInYear)
-                .plus(", year=")
-                .plus(year)
-                .plus('}')
+            .plus("label='")
+            .plus(label)
+            .plus('\'')
+            .plus(", weekInYear=")
+            .plus(weekInYear)
+            .plus(", year=")
+            .plus(year)
+            .plus('}')
     }
 }

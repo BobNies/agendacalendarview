@@ -18,8 +18,10 @@ class CalendarManager(val context: Context) {
         set(locale) {
             field = locale
             today = Calendar.getInstance(this.locale)
-            weekdayFormatter = SimpleDateFormat(context.getString(R.string.day_name_format), this.locale)
-            monthHalfNameFormat = SimpleDateFormat(context.getString(R.string.month_half_name_format), locale)
+            weekdayFormatter =
+                SimpleDateFormat(context.getString(R.string.day_name_format), this.locale)
+            monthHalfNameFormat =
+                SimpleDateFormat(context.getString(R.string.month_half_name_format), locale)
         }
     var today: Calendar = Calendar.getInstance(locale)
     var weekdayFormatter: SimpleDateFormat? = null
@@ -76,14 +78,21 @@ class CalendarManager(val context: Context) {
 
         // Loop through the weeks
         while ((currentMonth <= maxMonth // Up to, including the month.
-                || currentYear < maxYear) // Up to the year.
-                && currentYear < maxYear + 1) { // But not > next yr.
+                    || currentYear < maxYear) // Up to the year.
+            && currentYear < maxYear + 1
+        ) { // But not > next yr.
 
             val date = mWeekCounter.time
             // Build our week list
             val currentWeekOfYear = mWeekCounter.get(Calendar.WEEK_OF_YEAR)
 
-            val weekItem = WeekItem(currentWeekOfYear, currentYear, date, monthHalfNameFormat!!.format(date), currentMonth)
+            val weekItem = WeekItem(
+                currentWeekOfYear,
+                currentYear,
+                date,
+                monthHalfNameFormat?.format(date) ?: "",
+                currentMonth
+            )
             val dayItems = getDayCells(mWeekCounter) // gather days for the built week
             weekItem.dayItems = (dayItems)
             weeks.add(weekItem)
@@ -101,7 +110,12 @@ class CalendarManager(val context: Context) {
         for (weekItem in weeks) {
             for (dayItem in weekItem.dayItems) {
                 for (event in eventList) {
-                    if (DateHelper.isBetweenInclusive(dayItem.date, event.startTime, event.endTime)) {
+                    if (DateHelper.isBetweenInclusive(
+                            dayItem.date,
+                            event.startTime,
+                            event.endTime
+                        )
+                    ) {
                         val copy = event.copy()
                         val dayInstance = Calendar.getInstance(locale)
                         dayInstance.time = dayItem.date
@@ -125,7 +139,12 @@ class CalendarManager(val context: Context) {
             for (dayItem in weekItem.dayItems) {
                 var isEventForDay = true
                 for (event in eventList) {
-                    if (DateHelper.isBetweenInclusive(dayItem.date, event.startTime, event.endTime)) {
+                    if (DateHelper.isBetweenInclusive(
+                            dayItem.date,
+                            event.startTime,
+                            event.endTime
+                        )
+                    ) {
                         val copy = event.copy()
 
                         val dayInstance = Calendar.getInstance(locale)
@@ -168,7 +187,12 @@ class CalendarManager(val context: Context) {
                 var isEventForDay = true
                 for (l in eventList.size - 1 downTo 0) {
                     val event = eventList[l]
-                    if (DateHelper.isBetweenInclusive(dayItem.date, event.startTime, event.endTime)) {
+                    if (DateHelper.isBetweenInclusive(
+                            dayItem.date,
+                            event.startTime,
+                            event.endTime
+                        )
+                    ) {
                         val copy = event.copy()
 
                         dayItem.setHasEvents(event.hasEvent())
@@ -198,7 +222,11 @@ class CalendarManager(val context: Context) {
         }
     }
 
-    fun loadCal(lWeeks: MutableList<IWeekItem>, lDays: MutableList<IDayItem>, lEvents: MutableList<CalendarEvent>) {
+    fun loadCal(
+        lWeeks: MutableList<IWeekItem>,
+        lDays: MutableList<IDayItem>,
+        lEvents: MutableList<CalendarEvent>
+    ) {
         weeks = lWeeks
         days = lDays
         events = lEvents

@@ -64,7 +64,9 @@ object DateHelper {
         val selectedCal = Calendar.getInstance()
         selectedCal.time = selectedDate
         // Check if we deal with the same day regarding startCal and endCal
-        return sameDate(selectedCal, startCal) || selectedCal.after(startCal) && selectedCal.before(endCal)
+        return sameDate(selectedCal, startCal) || selectedCal.after(startCal) && selectedCal.before(
+            endCal
+        )
     }
 
     /**
@@ -126,7 +128,10 @@ object DateHelper {
      * @return The formatted date without the year included.
      */
     fun getYearLessLocalizedDate(calendar: Calendar, locale: Locale): String {
-        val sdf = SimpleDateFormat.getDateInstance(DateFormat.FULL, CalendarManager.instance!!.locale) as SimpleDateFormat
+        val sdf = SimpleDateFormat.getDateInstance(
+            DateFormat.FULL,
+            CalendarManager.instance!!.locale
+        ) as SimpleDateFormat
         val pattern = sdf.toPattern()
 
         val yearLessPattern = pattern.replace("\\W?[Yy]+\\W?", "")

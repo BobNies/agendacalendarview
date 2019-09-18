@@ -21,8 +21,6 @@ abstract class EventAdapter<T> {
 
     val renderType: Class<T>
         get() {
-//            val type = javaClass.genericSuperclass as ParameterizedType
-//            return type.actualTypeArguments[0].javaClass as Class<T>
             return javaClass.genericSuperclass as Class<T>
         }
 }

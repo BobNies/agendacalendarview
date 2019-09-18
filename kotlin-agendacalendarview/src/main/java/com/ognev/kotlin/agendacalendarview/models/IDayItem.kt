@@ -4,8 +4,6 @@ import java.util.Date
 
 interface IDayItem {
 
-    // region Getters/Setters
-
     var date: Date
 
     var value: Int
@@ -14,13 +12,11 @@ interface IDayItem {
 
     var isSelected: Boolean
 
-    var isFirstDayOfTheMonth: Boolean
+    var isFirstDayOfMonth: Boolean
 
     var month: String
 
-    var dayOftheWeek: Int
-
-    // endregion
+    var dayOfWeek: Int
 
     override fun toString(): String
 

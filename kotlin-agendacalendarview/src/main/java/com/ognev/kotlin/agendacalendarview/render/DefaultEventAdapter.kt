@@ -19,9 +19,11 @@ open class DefaultEventAdapter : EventAdapter<CalendarEvent>() {
     }
 
     override
-    fun getEventItemView(@NonNull view: View, @NonNull event: CalendarEvent, position: Int) {}
+    fun getEventItemView(@NonNull view: View, @NonNull event: CalendarEvent, position: Int) {
+    }
 
     override
-    fun getHeaderItemView(view: View, day: Calendar){}
+    fun getHeaderItemView(view: View, day: Calendar) {
+    }
 
 }

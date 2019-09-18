@@ -5,9 +5,7 @@ import rx.subjects.PublishSubject
 import rx.subjects.SerializedSubject
 
 class BusProvider {
-
     private val mBus = SerializedSubject<Any, Any>(PublishSubject.create())
-
 
     fun send(`object`: Any) {
         mBus.onNext(`object`)
@@ -20,8 +18,6 @@ class BusProvider {
     companion object {
 
         var mInstance: BusProvider? = null
-
-        // region Constructors
 
         val instance: BusProvider
             get() {

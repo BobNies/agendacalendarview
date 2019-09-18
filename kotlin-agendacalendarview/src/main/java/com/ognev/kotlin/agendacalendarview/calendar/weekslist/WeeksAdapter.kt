@@ -112,7 +112,7 @@ class WeeksAdapter(private val mContext: Context,
                 txtDay.text = dayItem.value.toString()
 
                 // Highlight first day of the month
-                if (dayItem.isFirstDayOfTheMonth && !dayItem.isSelected) {
+                if (dayItem.isFirstDayOfMonth && !dayItem.isSelected) {
                     txtMonth.visibility = View.VISIBLE
                     txtMonth.text = dayItem.month
                     txtDay.setTypeface(null, Typeface.BOLD)

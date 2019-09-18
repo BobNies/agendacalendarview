@@ -7,7 +7,6 @@ import java.util.Calendar
  */
 open class BaseCalendarEvent : CalendarEvent {
 
-
     override lateinit var instanceDay: Calendar
     override lateinit var dayReference: IDayItem
     override lateinit var weekReference: IWeekItem
@@ -44,7 +43,6 @@ open class BaseCalendarEvent : CalendarEvent {
         return "BaseCalendarEvent{"
                 .plus("title='")
                 .plus(", instanceDay= ")
-//                .plus(mInstanceDay!!.getTime())
                 .plus("}")
     }
 

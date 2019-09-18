@@ -4,7 +4,6 @@ import java.util.Date
 
 interface IWeekItem {
 
-
     var weekInYear: Int
 
     var year: Int

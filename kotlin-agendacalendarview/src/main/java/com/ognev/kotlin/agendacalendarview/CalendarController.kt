@@ -8,7 +8,7 @@ interface CalendarController {
 
     fun getEmptyEventLayout(): Int
 
-    fun getEventLayout() : Int
+    fun getEventLayout(): Int
 
     fun onDaySelected(dayItem: IDayItem)
 
