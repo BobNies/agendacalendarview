@@ -1,5 +1,6 @@
 package com.ognev.kotlin.agendacalendarview.agenda
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,9 +67,10 @@ class AgendaAdapter : BaseAdapter(), StickyListHeadersAdapter {
         return position.toLong()
     }
 
+    @SuppressLint("ViewHolder")
     override
     fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
+        var view = convertView
         var eventAdapter: EventAdapter<CalendarEvent> = mRenderers[0]
         val event = getItem(position)
 
@@ -80,16 +82,16 @@ class AgendaAdapter : BaseAdapter(), StickyListHeadersAdapter {
             }
         }
 
-        convertView = LayoutInflater.from(parent.context)
+        view = LayoutInflater.from(parent.context)
             .inflate(
                 eventAdapter.getEventLayout(CalendarManager.instance!!.events[position].hasEvent()),
                 parent,
                 false
             )
 
-        eventAdapter.getEventItemView(convertView, event, position)
+        eventAdapter.getEventItemView(view!!, event, position)
 
-        return convertView
+        return view
     }
 
     fun addEventRenderer(@NonNull adapter: EventAdapter<CalendarEvent>) {
