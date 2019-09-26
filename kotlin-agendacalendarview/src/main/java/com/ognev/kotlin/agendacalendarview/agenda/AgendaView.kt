@@ -4,7 +4,10 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ognev.kotlin.agendacalendarview.CalendarManager
@@ -18,6 +21,7 @@ class AgendaView : FrameLayout {
         private set
 
     private var mShadowView: View? = null
+    private var invalidateRows = true
 
     constructor(context: Context) : super(context)
 
@@ -52,20 +56,31 @@ class AgendaView : FrameLayout {
                             object : ViewTreeObserver.OnGlobalLayoutListener {
                                 override
                                 fun onGlobalLayout() {
+
                                     if (width != 0 && height != 0) {
                                         // display only two visible rows on the calendar view
                                         val layoutParams = layoutParams as MarginLayoutParams
                                         val height = height
                                         val margin =
-                                            (context.resources.getDimension(R.dimen.calendar_header_height) + 2 * context.resources.getDimension(
+                                            (context.resources.getDimension(R.dimen.calendar_header_height)
+                                                    + 2 * context.resources.getDimension(
                                                 R.dimen.day_cell_height
-                                            ))
-                                        layoutParams.height = height
-                                        layoutParams.setMargins(0, margin.toInt(), 0, 0)
+                                            )).toInt()
+
+                                        // RNies - BUG fix - need to deduct canendar height from agenda height.
+                                        if (invalidateRows) {
+                                            layoutParams.height = height - margin / 2
+                                            invalidateRows = false
+                                        } else {
+                                            layoutParams.height = height
+                                        }
+                                        layoutParams.setMargins(0, margin, 0, 0)
+
                                         setLayoutParams(layoutParams)
                                         //todo
                                         CalendarManager.instance?.let { cm ->
                                             if (cm.events.isNotEmpty()) {
+                                                //TODO - scroll to first item on list.
                                                 agendaListView.scrollToCurrentDate(cm.today)
                                             }
                                         }

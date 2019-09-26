@@ -39,7 +39,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //implementation project(':StickyListHeaders')
-    implementation 'com.github.BobNies:StickyListHeaders:3.0.1'
+    //api 'com.github.BobNies:StickyListHeaders:3.0.1'
+    api 'se.emilsjolander:stickylistheaders:2.7.0'
     // Google libraries
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'

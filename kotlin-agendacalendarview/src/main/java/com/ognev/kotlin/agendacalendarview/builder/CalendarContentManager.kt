@@ -41,7 +41,9 @@ class CalendarContentManager(
     }
 
 
-    fun loadItemsFromStart(eventList: MutableList<CalendarEvent>) {
+    fun loadItemsFromStart(
+        eventList: MutableList<CalendarEvent>
+    ) {
        if(!isInitialised)
            initialiseCalendar(eventList)
         else {

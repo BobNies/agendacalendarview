@@ -23,6 +23,9 @@ class AgendaListView : StickyListHeadersListView {
         defStyleAttr
     )
 
+    fun scrollToIndex(index: Int) {
+        post { setSelection(index) }
+    }
 
     fun scrollToCurrentDate(today: Calendar) {
         val events = CalendarManager.instance!!.events
